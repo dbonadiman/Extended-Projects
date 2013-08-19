@@ -1,16 +1,12 @@
-######################
-# factorial recoursive suffers of
-# maximum limit exceeded
-######################
-
 def factorial(n):
-	fact(n,2)
-
-def fact(n,div):
-	div=find_div(n,div)
-	print div
-	if div!=n:
-		fact(n/div,div)
+	div=2
+	while True:
+		div=find_div(n,div)
+		print div
+		if div!=n:
+			n=n/div
+		else:
+			break
 		
 
 def find_div(n,div):
