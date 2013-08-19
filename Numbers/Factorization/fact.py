@@ -13,6 +13,8 @@ def fact(n,div):
 def find_div(n,div):
 	a = div
 	while n%a!=0:
+		if a>n/2:
+			return n 
 		if a%2!=0:
 			a +=1
 		a +=1
