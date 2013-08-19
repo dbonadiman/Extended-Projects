@@ -1,6 +1,7 @@
 
 ###########################
 # More precision is needed.
+# 
 #
 #
 #
@@ -8,14 +9,15 @@
 import sys
 
 def pi():
-	return 2*opi(1)
+	return 2*opi(1,60)
 
-def opi(i):
-	if i==800:
+def opi(i,loops):
+	if i==loops:
 		return 1
 	else:
-		n = 1.0 + i / (2.0 * i + 1) * opi(i + 1)
+		n = 1.0 + i / (2.0 * i + 1) * opi(i + 1,loops)
 		return n
 
 if __name__=="__main__":
-	print 'the number is {:.49}'.format(pi())
+	outstring = 'the number is {:.'+str(int(input("precision:"))+1)+'}'
+	print outstring.format(pi())
