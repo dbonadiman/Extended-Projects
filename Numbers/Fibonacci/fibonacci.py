@@ -4,24 +4,12 @@
 # large number.
 ##########################
 def fibonacci():
-	fib()
-	
-
-def fib():
-	a=0
-	b=1
-	while n>b:
-		print b
-		c=b
-		b=a+b
-		a=c
-
-
+	fib_rec(0,1)
 
 def fib_rec(a,b):
 	if n>b:
 		print b
-		fib(b,a+b)
+		fib_rec(b,a+b)
 		
 if __name__=="__main__":
 	n = int(input("Give me a number:"))
