@@ -1,7 +1,10 @@
+####
+# One is skipped
+#####
+
 def next():
 	next = 0
 	n = prime[len(prime)-1]
-	print n
 	while True:
 		n+=1
 		for a in prime:
@@ -10,15 +13,12 @@ def next():
 			if n%a==0:
 				break
 		if next==n:
-			break
-	return [next]
-
-
-		
-
-
+			return [next]
+	
 if __name__=="__main__":
-	print 1
+	print 2
 	prime = [2]
-	while raw_input("another?")!='n':
-		prime += next()
+	while raw_input()!='n':
+		n = next()
+		print n[0]
+		prime += n
