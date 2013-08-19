@@ -5,14 +5,17 @@ def fact(n,div):
 	if find_div(n,div)==n:
 		print n
 	else:
-		print find_div(n,div)
+		div = find_div(n,div)
+		print div
 		fact(n/find_div(n,div),div)
 		
 
 def find_div(n,div):
 	a = div
 	while n%a!=0:
-		a += 1
+		if a%2!=0:
+			a +=1
+		a +=1
 	return a
 
 if __name__=="__main__":
