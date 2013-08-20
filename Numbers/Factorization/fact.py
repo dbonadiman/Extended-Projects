@@ -1,4 +1,4 @@
-sub######################
+######################
 # factorial recoursive suffers of
 # maximum limit exceeded
 ######################
