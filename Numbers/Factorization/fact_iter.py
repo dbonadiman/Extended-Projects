@@ -19,5 +19,9 @@ def find_div(n,div):
 		a +=1
 	return a
 
-if __name__=="__main__":
+def main():
 	factorial(int(input("Give me a number:")))
+
+if __name__=="__main__":
+	main()
+	
