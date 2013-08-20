@@ -8,8 +8,6 @@ class Square:
 		return str(self.width)+"x"+str(self.height)
 
 
-
-
 def input_float(string):
 	return float(raw_input(string))
 
