@@ -7,7 +7,9 @@ def fibonacci():
 		b=a+b
 		a=c
 
-		
-if __name__=="__main__":
+def main():
 	n = int(input("Give me a number:"))
-	fibonacci()
+	fibonacci()	
+			
+if __name__=="__main__":
+	main()

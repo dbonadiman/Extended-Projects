@@ -11,6 +11,9 @@ def fib_rec(a,b):
 		print b
 		fib_rec(b,a+b)
 		
-if __name__=="__main__":
+def main():
 	n = int(input("Give me a number:"))
-	fibonacci()
+	fibonacci()	
+			
+if __name__=="__main__":
+	main()
