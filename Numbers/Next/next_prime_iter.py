@@ -14,11 +14,14 @@ def next():
 				break
 		if next==n:
 			return [next]
-	
-if __name__=="__main__":
+
+def main():
 	print 2
 	prime = [2]
 	while raw_input()!='n':
 		n = next()
 		print n[0]
 		prime += n
+	
+if __name__=="__main__":
+	main()
