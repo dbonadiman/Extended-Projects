@@ -63,6 +63,7 @@ def main():
 			raise Exception('error','wrong input')
 	except Exception, e:
 		print "Wrong input, retry."
+		main()
 	else:
 		print digit_to_name(n)
 
