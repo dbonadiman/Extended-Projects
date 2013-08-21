@@ -14,9 +14,10 @@ def change(amount,coin):
 def main():
 	cost = float(input("Cost: "))
 	money_given = float(input("Money given: "))
-	print "The change is: "+str(money_given-cost)
+
+	print "The change is : {:.2f}".format(money_given-cost)
 	for (coin,amount) in change(money_given-cost,EURO):
-		print str(amount)+" of "+str(coin)+" euro"
+		print "{} of {:.2f} euro".format(amount,coin)
 
 
 
