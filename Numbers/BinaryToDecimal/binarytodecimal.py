@@ -15,10 +15,15 @@ def binary_to_decimal(bin):
 
 
 def main():
-	decimal = int(raw_input("A decimal number: "))
-	print decimal_to_binary(decimal)
-	binary = str(raw_input("A binary number: "))
-	print binary_to_decimal(binary)
+	try:
+		decimal = int(raw_input("A decimal number: "))
+		print decimal_to_binary(decimal)
+		binary = str(raw_input("A binary number: "))
+		print binary_to_decimal(binary)
+	except Exception, e:
+		print "Wrong input, retry."
+		main()
+
 
 
 if __name__=="__main__":
