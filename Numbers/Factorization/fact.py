@@ -24,7 +24,12 @@ def find_div(n,div):
 	return a
 
 def main():
-	factorial(int(input("Give me a number:")))
+	try:
+		factorial(int(input("Give me a number:")))
+	except Exception, e:
+		print "Wrong input, retry."
+		main()
+	
 
 if __name__=="__main__":
 	main()
