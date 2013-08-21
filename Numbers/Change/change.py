@@ -12,12 +12,17 @@ def change(amount,coin):
 
 
 def main():
-	cost = float(input("Cost: "))
-	money_given = float(input("Money given: "))
+	try:
+		cost = float(input("Cost: "))
+		money_given = float(input("Money given: "))
+	except Exception, e:
+		print "Wrong input, retry."
+		main()
+	else:
+		print "The change is : {:.2f}".format(money_given-cost)
+		for (coin,amount) in change(money_given-cost,EURO):
+			print "{} of {:.2f} euro".format(amount,coin)
 
-	print "The change is : {:.2f}".format(money_given-cost)
-	for (coin,amount) in change(money_given-cost,EURO):
-		print "{} of {:.2f} euro".format(amount,coin)
 
 
 
