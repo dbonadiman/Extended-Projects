@@ -4,9 +4,9 @@ Mega Project List
 Numbers
 ---------
 
-**Find PI to the Nth Digit** - Enter a number and have the program generate PI up to that many decimal places. Keep a limit to how far the program will go.
+**Find PI to the Nth Digit** [Solution](https://github.com/dbonadiman/Extended-Projects/blob/master/Numbers/Pi/pi.py) - Enter a number and have the program generate PI up to that many decimal places. Keep a limit to how far the program will go.
 
-**Fibonacci Sequence** - Enter a number and have the program generate the Fibonacci sequence to that number or to the Nth number.
+**Fibonacci Sequence** [Solution](https://github.com/dbonadiman/Extended-Projects/blob/master/Numbers/Fibonacci/fibonacci.py) [Solution 2](https://github.com/dbonadiman/Extended-Projects/blob/master/Numbers/Fibonacci/fibonacci_iter.py) - Enter a number and have the program generate the Fibonacci sequence to that number or to the Nth number.
 
 **Prime Factorization** - Have the user enter a number and find all Prime Factors (if there are any) and display them.
 
