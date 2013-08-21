@@ -9,7 +9,12 @@ class Square:
 
 
 def input_float(string):
-	return float(raw_input(string))
+	try:
+		return float(raw_input(string))
+	except Exception, e:
+		print "Wrong input, retry."
+		return input_float(string)
+	
 
 def cost_of_tile(tile,floor, price):
 	return (floor.width*floor.height*price)/(tile.width*tile.height)
