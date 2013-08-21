@@ -1,5 +1,4 @@
 
-import sys
 
 def collaz(num):
 	steps = 0
@@ -14,10 +13,15 @@ def collaz(num):
 	return steps
 
 
-def main(argv):
-	num = int(argv[1])
-	print collaz(num) 
+def main():
+	try:
+		num = int(raw_input("Number:"))
+	except Exception, e:
+		print "Wrong input, retry."
+		main()
+	else:
+		print collaz(num)
 
 
 if __name__ == "__main__":
-	main(sys.argv)
+	main()
