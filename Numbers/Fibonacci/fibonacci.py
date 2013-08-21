@@ -12,8 +12,13 @@ def fib_rec(a,b):
 		fib_rec(b,a+b)
 		
 def main():
-	n = int(input("Give me a number:"))
-	fibonacci()	
+	try:
+		n = int(input("Give me a number:"))
+	except Exception, e:
+		print "Wrong input, retry."
+		main()
+	else:
+		fibonacci()	
 			
 if __name__=="__main__":
 	main()
