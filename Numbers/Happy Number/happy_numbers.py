@@ -1,8 +1,5 @@
 def squaresum_of_digits(n):
-	summ = 0
-	for a in str(n):
-		summ += int(a)**2
-	return summ
+	return sum(int(a)*int(a) for a in str(n))
 
 def happy_number(n):
 	previous_number = [n]
