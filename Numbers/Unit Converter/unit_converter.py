@@ -1,6 +1,4 @@
 
-
-
 __temp = {
 	'C_K': lambda c: c+273.15,
 	'K_C': lambda k: k-273.15,
