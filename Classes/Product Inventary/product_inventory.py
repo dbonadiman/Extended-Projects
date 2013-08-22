@@ -22,7 +22,6 @@ class Product:
 
 class Inventory:
 	__products = []
-
 	def __init__(self, products =[]):
 		self.__products+=products
 
