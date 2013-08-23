@@ -4,22 +4,55 @@ class Graph:
 
 	def __init__(self,nodes=[],edges=[]):
 		if len(nodes)>0:
-			self.add_nodes(n for n in nodes)
+			self.add_nodes(nodes)
 		if len(edges)>0:
-			self.add_edges(e for e in edges)
+			self.add_edges(edges)
 
-	def add_edges(self, edges):
-		for (n,k) in edges:
+	def add_node(self, n):
+		if n not in self.__nodes:
+			self.__nodes.append(n)
+
+	def add_edge(self, (n,k)):
 			if (n in self.__nodes) and (k in self.__nodes):
-				self.__edges.append((n,k))
+				if (n,k) not in self.__edges:
+					self.__edges.append((n,k))
 			else:
 				raise Exception("Error: You can't add edges if one node is missing")
+
+	def contains(self, c):
+		return c in self.__edges or c in self.__nodes
+
+	def add_edges(self, edges):
+		for e in edges:
+			self.add_edge(e)
 
 
 	def add_nodes(self, nodes):
 		for n in nodes:
-			if n not in self.__nodes:
-				self.__nodes.append(n)
+			self.add_node(n)
+
+	def get_nodes(self):
+		return self.__nodes
+
+	def get_edges(self):
+		return self.__edges
+
+	def next(self,n):
+		return [k for (n,k) in self.outgoing_edges(n)]
+
+
+	def outgoing_edges(self,n):
+		if n in self.__nodes:
+			return [(n1,n2)  for (n1,n2) in self.__edges if n1 == n]
+		else:
+			raise Exception("Error: node not found")
+
+	def ingoing_edges(self,n):
+		if n in self.__nodes:
+			return [(n1,n2)  for (n1,n2) in self.__edges if n2 == n]
+		else:
+			raise Exception("Error: node not found")
+
 
 	def __str__(self):
 		out =  "Nodes :{}\n".format(self.__nodes)
@@ -31,12 +64,17 @@ class Graph:
 
 
 def main():
-	links = [(1,2),(1,5),(1,10),(3,5)]
+	links = [(1,2),(2,3),(3,4),(6,7),(7,5),(1,3)]
 	gr = Graph()
-	gr.add_nodes((n for (n,k) in links))
-	gr.add_nodes((k for (n,k) in links))
-	gr.add_edges((e for e in links))
+	gr.add_nodes([n for (n,k) in links])
+	gr.add_nodes([k for (n,k) in links])
+	gr.add_edges(links)
 	print gr
+	print "Outgoing edges for {}: {}".format(1,gr.outgoing_edges(1))
+	print "Ingoing edges for {}: {}".format(2,gr.ingoing_edges(2))
+	print "Nodes next to {}: {}".format(1,gr.next(1))
+	print "Graph contains {}: {}".format(1,gr.contains(1))
+	print "Graph contains {}: {}".format((1,2),gr.contains((1,2)))
 
 
 if __name__=="__main__":
