@@ -14,6 +14,7 @@ def print_matrix(m):
 	for l in m:
 		print l
 
+
 def main():
 	links = [(1,2),(2,3),(5,6),(7,8)]
 	print_matrix(graph(links))
