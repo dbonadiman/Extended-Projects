@@ -1,7 +1,7 @@
 from copy import deepcopy
 
 def eulerian_path(graph, node):
-	return eulerian_path_r(deepcopy(graph),[1 for i in range(0,len(graph))],[node],sum(sum(x for x in i) for i in graph))	
+	return eulerian_path_r(deepcopy(graph),[1]*len(graph),[node],sum(sum(x for x in i) for i in graph))	
  	
 
 
