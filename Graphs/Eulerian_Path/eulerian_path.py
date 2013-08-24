@@ -1,22 +1,19 @@
 from copy import deepcopy
 
 def eulerian_path(graph, node):
-	return eulerian_path_r(node,deepcopy(graph),[1 for i in range(0,len(graph))],[])	
+	return eulerian_path_r(deepcopy(graph),[1 for i in range(0,len(graph))],[node],sum(sum(x for x in i) for i in graph))	
  	
 
 
-def eulerian_path_r(node_i , visited, nodes, path):	
-	if path !=[] :
-		visited[path[-1]][node_i]=0
-	nodes[node_i] = 0
-	path.append(node_i)
-	if sum(sum(x) for x in visited)==0 and sum(x for x in nodes)==0:
+def eulerian_path_r(visited, nodes, path, edges_left):	
+	if len(path)>1 :
+		visited[path[-2]][path[-1]]=0
+	nodes[path[-1]] = 0
+	for j in range(0,len(nodes)):
+		if visited[path[-1]][j]:
+			return eulerian_path_r(deepcopy(visited),nodes,deepcopy(path+[j]),edges_left-1)
+	if edges_left==0 and sum(x for x in nodes)==0:
 		return path
-	for j in range(0,len(visited)):
-		if visited[node_i][j]:
-			output = eulerian_path_r(j,deepcopy(visited),nodes,deepcopy(path))
-			if output!=[]:
-				return output
 	return []
 
 def print_matrix(m):
@@ -29,37 +26,20 @@ def main():
 			 [0,0,0,1],
 			 [1,0,1,0]]
 	print_matrix(graph)
-	print eulerian_path(graph,0)
+	print "\nPath:{}\n".format(eulerian_path(graph,0))
 	graph = [[0,1,0,0],
 			 [0,0,1,0],
 			 [0,0,0,1],
 			 [1,0,0,0]]
 	print_matrix(graph)
-	print eulerian_path(graph,0)
+	print "\nPath:{}\n".format(eulerian_path(graph,0))
 	graph = [[0,1,0,1],
 		 	[0,0,1,0],
 		 	[1,0,0,0],
 		 	[0,0,0,0]]
 	print_matrix(graph)
-	print eulerian_path(graph,0)
-	graph = [[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
-		 	[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
-		 	[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
-		 	[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
-		 	[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
-		 	[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
-		 	[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
-		 	[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
-		 	[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
-		 	[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
-		 	[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
-		 	[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
-		 	[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
-		 	[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
-		 	[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
-		 	[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]]
-	print_matrix(graph)
-	print eulerian_path(graph,0)
+	print "\nPath:{}\n".format(eulerian_path(graph,0))
+
 
 
 if __name__=="__main__":
