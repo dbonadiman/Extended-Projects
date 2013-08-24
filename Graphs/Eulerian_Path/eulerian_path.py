@@ -11,10 +11,11 @@ def eulerian_path_r(visited, nodes, path, edges_left):
 	nodes[path[-1]] = 0
 	for j in range(0,len(nodes)):
 		if visited[path[-1]][j]:
-			return eulerian_path_r(deepcopy(visited),nodes,deepcopy(path+[j]),edges_left-1)
+			out = eulerian_path_r(deepcopy(visited),nodes,deepcopy(path+[j]),edges_left-1)
+			if out is not None:
+				return out
 	if edges_left==0 and sum(x for x in nodes)==0:
 		return path
-	return []
 
 def print_matrix(m):
 	for l in m:
@@ -37,6 +38,18 @@ def main():
 		 	[0,0,1,0],
 		 	[1,0,0,0],
 		 	[0,0,0,0]]
+	print_matrix(graph)
+	print "\nPath:{}\n".format(eulerian_path(graph,0))
+	graph = [[0,0,0,0],
+			 [0,0,0,0],
+			 [0,0,0,0],
+			 [0,0,0,0]]
+	print_matrix(graph)
+	print "\nPath:{}\n".format(eulerian_path(graph,0))
+	graph = [[1,1,1,1],
+			 [1,1,1,1],
+			 [1,1,1,1],
+			 [1,1,1,1]]
 	print_matrix(graph)
 	print "\nPath:{}\n".format(eulerian_path(graph,0))
 
