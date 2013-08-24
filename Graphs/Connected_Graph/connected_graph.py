@@ -6,28 +6,36 @@ def strong_connectivity(graph, node):
  	
 
 
-def strong_connectivity_r(visited, nodes, path, edges_left):	
+def strong_connectivity_r(visited, nodes, path, edges_left):
 	if len(path)>1 :
 		visited[path[-2]][path[-1]]=0
 	nodes[path[-1]] = 0
-	for j in range(0,len(nodes)):
-		if visited[path[-1]][j]:
-			out = strong_connectivity_r(deepcopy(visited),nodes,deepcopy(path+[j]),edges_left-1)
-			if out:
-				return out
 	if sum(x for x in nodes)==0:
 		return True
+	for j in range(0,len(nodes)):
+		if visited[path[-1]][j]:
+			if nodes[j]:
+				out = strong_connectivity_r(deepcopy(visited),nodes,deepcopy(path+[j]),edges_left-1)
+				if out:
+					return out
+	for j in range(0,len(nodes)):
+		if visited[path[-1]][j]:
+			if not nodes[j]:
+				out = strong_connectivity_r(deepcopy(visited),nodes,deepcopy(path+[j]),edges_left-1)
+				if out:
+					return out
 	return False
 
 
 def connected(graph):
-	strong_connectivity(graph,0)
+	return strong_connectivity(graph,0)
 
 def print_matrix(m):
 	for l in m:
 		print l
 
 def main():
+
 	graph = [[0,1,0,0],
 			 [1,0,0,0],
 			 [0,0,0,1],
