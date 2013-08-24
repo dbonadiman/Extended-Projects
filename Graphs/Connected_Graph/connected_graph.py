@@ -2,7 +2,10 @@ from copy import deepcopy
 
 
 def strong_connectivity(graph, node):
-	return strong_connectivity_r(deepcopy(graph),[1]*len(graph),[node],sum(sum(x for x in i) for i in graph))	
+	if graph in [[],[[1]],[[0]]]:
+		return True
+	else:
+		return strong_connectivity_r(deepcopy(graph),[1]*len(graph),[node],sum(sum(x for x in i) for i in graph))	
  	
 
 
@@ -64,6 +67,12 @@ def main():
 			 [1,1,1,1],
 			 [1,1,1,1],
 			 [1,1,1,1]]
+	print_matrix(graph)
+	print "\n Connected:{}\n".format(connected(graph))
+	graph = []
+	print_matrix(graph)
+	print "\n Connected:{}\n".format(connected(graph))
+	graph = [[1]]
 	print_matrix(graph)
 	print "\n Connected:{}\n".format(connected(graph))
 

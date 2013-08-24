@@ -1,6 +1,8 @@
 from copy import deepcopy
 
 def eulerian_path(graph, node):
+	if graph == []:
+		return None
 	return eulerian_path_r(deepcopy(graph),[1]*len(graph),[node],sum(sum(x for x in i) for i in graph))	
  	
 
@@ -56,6 +58,15 @@ def main():
 			 [0,0,1,0],
 			 [1,0,0,1],
 			 [0,0,1,0]]
+	print_matrix(graph)
+	print "\nPath:{}\n".format(eulerian_path(graph,0))
+	graph = []
+	print_matrix(graph)
+	print "\nPath:{}\n".format(eulerian_path(graph,0))
+	graph = [[1]]
+	print_matrix(graph)
+	print "\nPath:{}\n".format(eulerian_path(graph,0))
+	graph = [[0]]
 	print_matrix(graph)
 	print "\nPath:{}\n".format(eulerian_path(graph,0))
 
