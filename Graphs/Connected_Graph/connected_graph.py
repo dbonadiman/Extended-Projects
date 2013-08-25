@@ -44,37 +44,37 @@ def main():
 			 [0,0,0,1],
 			 [0,0,1,0]]
 	print_matrix(graph)
-	print "\n Connected:{}\n".format(connected(graph))
+	print "\n Connected: {}\n".format(connected(graph))
 	graph = [[0,1,0,0],
 			 [0,0,1,0],
 			 [0,0,0,1],
 			 [1,0,0,0]]
 	print_matrix(graph)
-	print "\n Connected:{}\n".format(connected(graph))
+	print "\n Connected: {}\n".format(connected(graph))
 	graph = [[0,1,0,1],
 		 	[0,0,1,0],
 		 	[1,0,0,0],
 		 	[0,0,0,0]]
 	print_matrix(graph)
-	print "\n Connected:{}\n".format(connected(graph))
+	print "\n Connected: {}\n".format(connected(graph))
 	graph = [[0,0,0,0],
 			 [0,0,0,0],
 			 [0,0,0,0],
 			 [0,0,0,0]]
 	print_matrix(graph)
-	print "\n Connected:{}\n".format(connected(graph))
+	print "\n Connected: {}\n".format(connected(graph))
 	graph = [[1,1,1,1],
 			 [1,1,1,1],
 			 [1,1,1,1],
 			 [1,1,1,1]]
 	print_matrix(graph)
-	print "\n Connected:{}\n".format(connected(graph))
+	print "\n Connected: {}\n".format(connected(graph))
 	graph = []
 	print_matrix(graph)
-	print "\n Connected:{}\n".format(connected(graph))
+	print "\n Connected: {}\n".format(connected(graph))
 	graph = [[1]]
 	print_matrix(graph)
-	print "\n Connected:{}\n".format(connected(graph))
+	print "\n Connected: {}\n".format(connected(graph))
 
 
 if __name__=="__main__":

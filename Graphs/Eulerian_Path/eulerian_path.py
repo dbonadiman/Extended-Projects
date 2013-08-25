@@ -29,46 +29,46 @@ def main():
 			 [0,0,0,1],
 			 [1,0,1,0]]
 	print_matrix(graph)
-	print "\nPath:{}\n".format(eulerian_path(graph,0))
+	print "\nPath: {}\n".format(eulerian_path(graph,0))
 	graph = [[0,1,0,0],
 			 [0,0,1,0],
 			 [0,0,0,1],
 			 [1,0,0,0]]
 	print_matrix(graph)
-	print "\nPath:{}\n".format(eulerian_path(graph,0))
+	print "\nPath: {}\n".format(eulerian_path(graph,0))
 	graph = [[0,1,0,1],
 		 	[0,0,1,0],
 		 	[1,0,0,0],
 		 	[0,0,0,0]]
 	print_matrix(graph)
-	print "\nPath:{}\n".format(eulerian_path(graph,0))
+	print "\nPath: {}\n".format(eulerian_path(graph,0))
 	graph = [[0,0,0,0],
 			 [0,0,0,0],
 			 [0,0,0,0],
 			 [0,0,0,0]]
 	print_matrix(graph)
-	print "\nPath:{}\n".format(eulerian_path(graph,0))
+	print "\nPath: {}\n".format(eulerian_path(graph,0))
 	graph = [[1,1,1,1],
 			 [1,1,1,1],
 			 [1,1,1,1],
 			 [1,1,1,1]]
 	print_matrix(graph)
-	print "\nPath:{}\n".format(eulerian_path(graph,0))
+	print "\nPath: {}\n".format(eulerian_path(graph,0))
 	graph = [[0,1,0,0],
 			 [0,0,1,0],
 			 [1,0,0,1],
 			 [0,0,1,0]]
 	print_matrix(graph)
-	print "\nPath:{}\n".format(eulerian_path(graph,0))
+	print "\nPath: {}\n".format(eulerian_path(graph,0))
 	graph = []
 	print_matrix(graph)
-	print "\nPath:{}\n".format(eulerian_path(graph,0))
+	print "\nPath: {}\n".format(eulerian_path(graph,0))
 	graph = [[1]]
 	print_matrix(graph)
-	print "\nPath:{}\n".format(eulerian_path(graph,0))
+	print "\nPath: {}\n".format(eulerian_path(graph,0))
 	graph = [[0]]
 	print_matrix(graph)
-	print "\nPath:{}\n".format(eulerian_path(graph,0))
+	print "\nPath: {}\n".format(eulerian_path(graph,0))
 
 
 
