@@ -13,13 +13,13 @@ def ht_from_dic(dic):
 
 		
 def search_in_tree(ht,c):
-	if ht[0] == c:
+	if ht == c:
 		return ""
 	else:
 		if isinstance(ht[0], tuple):
 			string  =	search_in_tree(ht[0][0],c)
 			if string is None:
-				string  = search_in_tree(ht[0][1],c)
+				string  = search_in_tree(ht[1][0],c)
 				if not string is None:
 					return "1"+string
 			else:
@@ -38,7 +38,7 @@ def huffman_enc(st):
 	chars = set(st)
 	conversion_table = {}
 	for c in chars:
-		bin_str = search_in_tree(ht,c)
+		bin_str = search_in_tree(ht[0],c)
 		print "{} ==> {}".format(c,bin_str)
 		conversion_table[c] = bin_str
 	print "Conversion Table Done"
@@ -46,7 +46,17 @@ def huffman_enc(st):
 	return ("".join([conversion_table[c] for c in st]),ht)
 
 def huffman_dec((st,ht)):
-	return st
+	string = ""
+	t = ()
+	t = ht[0]
+	for s in st:
+		if isinstance(t[int(s)][0], tuple):
+			t = t[int(s)][0]
+		else:
+			string += t[int(s)][0]
+			t = ht[0]
+	return string
+
 
 def decimal_to_binary(num):
 	binary = ""
@@ -63,14 +73,15 @@ def main():
 		if s=='':
 			break
 		string += s
-	string = string.decode('utf-8')
 	zip = huffman_enc(string)
 	print "The text size was: "+str(len("".join([decimal_to_binary(ord(c)) for c in string]))/8)+" byte"
 	print "The text compressed size is: "+str(len(zip[0])/8)+" byte"
-	
 	decripted = huffman_dec(zip)
+	print decripted
 	if string==decripted:
 		print True
+	else:
+		print False
 
 
 if __name__=="__main__":
