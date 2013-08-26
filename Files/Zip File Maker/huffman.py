@@ -7,9 +7,6 @@ import cPickle
 import shutil
 
 class Dx:
-	fi = ''
-	def __init__(self,fi):
-		self.fi = fi
 
 	def __get_size(self,start_path = '.'):
 		if os.path.isfile(start_path):
@@ -78,7 +75,7 @@ class Dx:
 			num = num/2
 		return binary[::-1] #this reverse the string
 
-	def __huffman_enc(self,st):
+	def __huffman_enc(self,st): 
 		dic = defaultdict(int)
 		for s in st:
 			dic[s] += 1
@@ -103,26 +100,78 @@ class Dx:
 				t = ht[0]
 		return string
 
-	def __compress_file(self):
+	def initialize_dic(self):
+		dic = {}
+		for i in range(256):
+			dic[chr(i)]=i
+		return dic
+
+	def initialize_lst(self):
+		dic = []
+		for i in range(256):
+			dic.insert(i,chr(i))
+		return dic
+
+	def LZ78_enc(self,st):
+		dic = self.initialize_dic()
+		out_st = ""
+		buffer = ""
+		a = len(dic)
+		for s in st:
+			if buffer+s in dic:
+				buffer += s
+			else:
+				out_st+=str(dic[buffer])+","
+				dic[buffer+s] = a 
+				a += 1
+				buffer = s
+		out_st+=str(dic[buffer])
+		return out_st
+
+
+
+	def LZ78_dec(self,st):
+		dic = self.initialize_lst()
+		codes = [int(s)  for s in st.split(',') if s!='']
+		pcode = codes[0]
+		out_st = dic[pcode]
+		for i in range(1,len(codes)):
+			ccode = codes[i]
+			try:
+				entry =  dic[ccode]
+				out_st += entry
+				dic.append(dic[pcode]+entry[0])
+			except Exception, e:
+				if ccode>len(dic):
+					raise Exception("")
+				entry = dic[pcode]+dic[pcode][0]
+				out_st += entry
+				dic.append(entry)
+			pcode = ccode
+		return out_st
+
+
+	def __compress_file(self,fi):
+
 		string = ""
-		f = open(self.fi, 'rb')
+		f = open(fi, 'rb')
 		while True:
 			s = f.read(1)
 			if s=='':
 				break
 			string += s
 		f.close()
-		name  = self.fi.split('.')[0]
-		zip = self.__huffman_enc(string)
-		out =open(self.fi+'.dx', 'wb')
+		name  = fi.split('.')[0]
+		zip = self.__huffman_enc(self.LZ78_enc(string))
+		out =open(fi+'.dx', 'wb')
 		out.write(str(len(zip[1]))+'\n')
 		out.write('\n')
 		out.write(zip[1]+zip[0])
 		out.close
-		return self.fi+'.dx'
+		return fi+'.dx'
 
-	def __decompress_file(self):
-		f = open(self.fi,'rb')	
+	def __decompress_file(self,fi):
+		f = open(fi,'rb')	
 		size = []
 		header = ""
 		while True:
@@ -130,55 +179,40 @@ class Dx:
 			if a=='\n':
 				break
 			size += [int(a.replace('\n',''))]
-		name  = self.fi[:len(self.fi)-3]
+		name  = fi[:len(fi)-3]
 		data = f.read()
 		data = data.replace(header,'')
 		f.close()
-		string = self.__huffman_dec((data[size[0]:],data[:size[0]]))
+		string = self.LZ78_dec(self.__huffman_dec((data[size[0]:],data[:size[0]])))
 		f = open(name,'wb')
 		f.write(string+'\n')
 		f.close
 		return name
 
-	def compress(self):		
-		if not os.path.isfile(self.fi):
-			f = open(self.fi+"_c",'wb')
-			info = open(self.fi+".f",'wb')
-			files=os.listdir(self.fi)
+	def __folder_pack(self,fi):
+		if not os.path.isfile(fi):
+			data_to_write=''
+			info = open(fi+".ar",'wb')
+			files=os.listdir(fi)
 			info.write('<<FOLDER>>\n')
 			for fa in files:
-				o = Dx(self.fi+"/"+fa).compress()
-				a = open(o,'rb')
-				info.write(o+'\t'+str(os.path.getsize(o))+'\n')
-				os.remove(o)
-				f.write(a.read())
+				merged_folder = self.__folder_pack(fi+"/"+fa)
+				print fi+"/"+fa
+				a = open(merged_folder,'rb')
+				data = a.read()
+				info.write(merged_folder+'\t'+str(len(data))+'\n')
+				os.remove(merged_folder)
+				data_to_write += data
 				a.close()
 			info.write('\n')
-			f.close()
-			f = open(self.fi+"_c",'rb')
-			info.write(f.read())
-
-			f.close()
+			info.write(data_to_write)
 			info.close()
-			out = Dx(self.fi+".f").compress()
-			os.remove(self.fi+"_c")
-			os.remove(self.fi+".f")
-			#os.rename(out,out.replace('.f',''))
-			print self.fi+" size was: {} KB".format(self.get_size(self.fi)/1000.0)
-			print out+" size is: {} KB".format(self.get_size(out)/1000.0)
-			return out
-		else: 
-			o = Dx(self.fi).__compress_file()
-			print self.fi+" size was: {} KB".format(self.get_size(self.fi)/1000.0)
-			print o+" size is: {} KB".format(self.get_size(o)/1000.0)
-			return o
+		else:
+			shutil.copy(fi,fi+".ar")		
+		return fi+".ar"
 
-	def decompress(self):
-		
-		if self.fi[-2:]!='dx':
-			raise Exception("File not compressed")
-		o = Dx(self.fi).__decompress_file()
-		info = open(o,'rb')
+	def __folder_unpack(self,fi):
+		info = open(fi,'rb')
 		if info.readline()=='<<FOLDER>>\n':
 			files = []
 			while True:
@@ -188,36 +222,51 @@ class Dx:
 				a = s.split('\t')
 				files += [(a[0],int(a[1].replace('\n','')))]
 			data = info.read()
-			if not os.path.exists(o[:-2]):
-				os.makedirs(o[:-2])
-			t = 0
+			if not os.path.exists(fi[:-3]):
+				os.makedirs(fi[:-3])
+			total = 0
 			for f in files:
+				print f[0]
 				fa = open(f[0],'wb')
-				fa.write(data[t:t+f[1]])
+				fa.write(data[total:total+f[1]])
 				fa.close()
-				t += f[1]
-				Dx(f[0]).decompress()
-				os.remove(f[0])
-			os.remove(o)
-			o = o[:-2]
-		print self.fi+"size was: {} KB".format(self.get_size(self.fi)/1000.0)
-		print o+" size is: {} KB".format(self.get_size(o)/1000.0)
+				total += f[1]
+				self.__folder_unpack(f[0])
+		os.remove(fi)
+		return fi[:-3]
+
+	def compress(self,fi):
+		print "Packing..."
+		ar = self.__folder_pack(fi)
+		print "Packing...Done"
+		print "Compressing..."
+		out = self.__compress_file(ar)
+		os.remove(ar)
+		print "Compressing...Done"
+		print fi+" size was: {} KB".format(self.__get_size(fi)/1000.0)
+		print out+" size is: {} KB".format(self.__get_size(out)/1000.0)
+		return out
+
+	def decompress(self,fi):	
+		if fi[-2:]!='dx':
+			raise Exception("File not compressed")
+		print "Decompressing..."
+		ar = self.__decompress_file(fi)
+		print "Decompressing...Done"
+		print "Unpacking..."
+		o = self.__folder_unpack(ar)
+		print "Unpacking...Done"
+		print fi+"size was: {} KB".format(self.__get_size(fi)/1000.0)
+		print o+" size is: {} KB".format(self.__get_size(o)/1000.0)
 		return o
-
-
-
-
-
-
-
 
 	
 def main(op,fi):
 	o = ''
 	if op=='-c':
-		o = Dx(fi).compress()
+		o = Dx().compress(fi)
 	elif op=='-d':
-		o = Dx(fi).decompress()
+		o = Dx().decompress(fi)
 
 	
 
