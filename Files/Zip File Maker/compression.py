@@ -4,6 +4,22 @@ import encoding
 import shutil
 import math
 
+def __h(files):
+  data = ""
+  if os.path.isfile(files):
+  	data = open(files,'rb').read()
+  else:
+  	o=os.listdir(files)
+  	for f in o:
+  		data += open(files+'/'+f,'rb').read()
+  if not data:
+    return 0
+  entropy = 0
+  for x in range(256):
+    p_x = float(data.count(chr(x)))/len(data)
+    if p_x > 0:
+      entropy += - p_x*math.log(p_x, 2)
+  return entropy
 
 def __get_size(start_path = '.'):
 	if os.path.isfile(start_path):
@@ -18,24 +34,38 @@ def __get_size(start_path = '.'):
 
 
 
-def __compress_file(fi):
+def __compress_file(fi,fo):
 	f = open(fi, 'rb')
 	string = f.read()
 	f.close()
 	name  = fi.split('.')[0]
-	zip = encoding.huffman_enc(encoding.LZ78_enc(string))
-	out =open(fi+'.dx', 'wb')
-	out.write(zip)
-	out.close
-	return fi+'.dx'
+	enc = encoding.LZ78_enc(string)
+	zip = encoding.huffman_enc(enc,True)
+	out =open(fo, 'wb')
+	if isinstance(zip,tuple):
+		out.write(str(len(zip[1]))+"\n")
+		out.write(zip[1])
+		out.write(zip[0])
+	else:
+		out.write(zip)
+	out.close()
+	return fo
 
 
 def __decompress_file(fi):
 	f = open(fi,'rb')	
-	name  = fi[:len(fi)-3]
-	data = f.read()
+	name  = fi[:-3]
+	data = f.readline()
+	try:
+		size = int(data)
+	except Exception, e:
+		data += f.read()
+	else:
+		data = f.read()
+		data = (data[size:],data[:size])
 	f.close()
-	string = encoding.LZ78_dec(encoding.huffman_dec(data))
+	enc = encoding.huffman_dec(data)
+	string = encoding.LZ78_dec(enc)
 	f = open(name,'wb')
 	f.write(string+'\n')
 	f.close
@@ -63,7 +93,7 @@ def __folder_pack(fi):
 		shutil.copy(fi,fi+".ar")		
 	return fi+".ar"
 
-def __folder_unpack(fi):
+def __folder_unpack(fi,fo):
 	info = open(fi,'rb')
 	if info.readline()=='<<FOLDER>>\n':
 		files = []
@@ -74,69 +104,54 @@ def __folder_unpack(fi):
 			a = s.split('\t')
 			files += [(a[0],int(a[1].replace('\n','')))]
 		data = info.read()
-		if not os.path.exists(fi[:-3]):
-			os.makedirs(fi[:-3])
+		if not os.path.exists(fo):
+			os.makedirs(fo)
 		total = 0
 		for f in files:
-			print f[0]
+			print f[0][:-3]
 			fa = open(f[0],'wb')
 			fa.write(data[total:total+f[1]])
 			fa.close()
 			total += f[1]
-			__folder_unpack(f[0])
+			__folder_unpack(f[0],f[0][:-3])
 	os.remove(fi)
-	return fi[:-3]
+	return fo
 
-def compress(fi):
+def compress(fi,fo):
 	print "Packing..."
 	ar = __folder_pack(fi)
 	print "Packing...Done"
 	print "Compressing..."
-	out = __compress_file(ar)
+	out = __compress_file(ar,fo)
 	os.remove(ar)
 	print "Compressing...Done"
-	print fi+" size was: {} KB and the entryopy:  {}".format(__get_size(fi)/1000.0,__h(open(fi,'rb').read()))
-	print out+" size is: {} KB and the entryopy:  {}".format(__get_size(out)/1000.0,__h(open(out,'rb').read()))
+	print fi+" size was: {} KB and the entryopy:  {}".format(__get_size(fi)/1000.0,__h(fi))
+	print out+" size is: {} KB and the entryopy:  {}".format(__get_size(out)/1000.0,__h(out))
 	return out
 
-def decompress(fi):	
-	if fi[-2:]!='dx':
-		raise Exception("File not compressed")
+def decompress(fi,fo):	
 	print "Decompressing..."
 	ar = __decompress_file(fi)
 	print "Decompressing...Done"
 	print "Unpacking..."
-	out = __folder_unpack(ar)
+	out = __folder_unpack(ar,fo)
 	print "Unpacking...Done"
-	print fi+" size was: {} KB and the entryopy:  {}".format(__get_size(fi)/1000.0,__h(open(fi,'rb').read()))
-	print out+" size is: {} KB and the entryopy:  {}".format(__get_size(out)/1000.0,__h(open(out,'rb').read()))
+	print fi+" size was: {} KB and the entryopy:  {}".format(__get_size(fi)/1000.0,__h(fi))
+	print out+" size is: {} KB and the entryopy:  {}".format(__get_size(out)/1000.0,__h(out))
 	return out
 
-
-
-def __h(data):
-  if not data:
-    return 0
-  entropy = 0
-  for x in range(256):
-    p_x = float(data.count(chr(x)))/len(data)
-    if p_x > 0:
-      entropy += - p_x*math.log(p_x, 2)
-  return entropy
 	
-def main(op,fi):
+def __main(op,fi,fo):
 	if op=='-c':
-		compress(fi)
+		compress(fi,fo)
 	if op=='-d':
-		decompress(fi)
-
-	
-
+		decompress(fi,fo)
 
 
 
 if __name__=="__main__":
 	try:
-		main(sys.argv[1],sys.argv[2])
+		__main(sys.argv[1],sys.argv[2],sys.argv[3])
 	except Exception, e:
-		main('-c',sys.argv[0])
+		__main('-c','files','files.compress')
+		__main('-d','files.compress','files')

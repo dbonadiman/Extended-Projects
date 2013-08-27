@@ -3,6 +3,8 @@ import cPickle
 from cStringIO import StringIO
 from  operator import itemgetter
 
+DEFAULT_HT=""
+
 def __bit_to_char(bit_str):
 	sio = StringIO(bit_str)
 	out = StringIO()
@@ -30,23 +32,31 @@ def __char_to_bit(string):
 	return aa
 
 def __ht_from_dic(dic):
-	tuples =  dic.items()	
+	tuples =  dic.items()
+	tuples += [('\0',0)]
 	while len(tuples)>1:
 		m = min(tuples, key=itemgetter(1))
 		tuples.remove(m)
 		n = min(tuples, key=itemgetter(1))
 		tuples.remove(n)
 		tuples += [((m,n),m[1]+n[1])]
-	return tuples[0]
+	return __remove_count(tuples[0])
+
+def __remove_count((a,b)):
+	if isinstance(a,tuple):
+		return (__remove_count(a[0]),__remove_count(a[1]))
+	else:
+		return (a)
+
 
 def __search_in_tree(ht,c):
 	if ht == c:
 		return ""
 	else:
-		if isinstance(ht[0], tuple):
-			string  =	__search_in_tree(ht[0][0],c)
+		if isinstance(ht, tuple):
+			string  =	__search_in_tree(ht[0],c)
 			if string is None:
-				string  = __search_in_tree(ht[1][0],c)
+				string  = __search_in_tree(ht[1],c)
 				if not string is None:
 					return "1"+string
 			else:
@@ -64,33 +74,40 @@ def __initialize_lst():
 		dic.insert(i,chr(i))
 	return dic
 
-def huffman_enc(st): 
-	dic = defaultdict(int)
-	for s in st:
-		dic[s] += 1
-	p="(((((((S'4'\nI963137\nt(S'3'\nI1018943\nttI1982080\nt(((S'2'\nI1175195\nt(S'1'\nI1556659\nttI2731854\nttI4713934\nt(((((S','\nI1677553\nt(((S'0'\nI832167\nt(S'8'\nI860447\nttI1692614\nttI3370167\nt(((((S'7'\nI860586\nt(S'9'\nI864030\nttI1724616\nt(((S'6'\nI875414\nt(S'5'\nI909016\nttI1784430\nttI3509046\nttI6879213\nttI11593147\ntp1\n."
-	ht = cPickle.loads(p)
-
+def huffman_enc(st,create_ht = False): 
+	if create_ht:
+		dic = defaultdict(int)
+		for s in st:
+			dic[s] += 1
+		ht = __ht_from_dic(dic)
+	else:
+		ht = cPickle.loads(DEFAULT_HT)
 	chars = set(st)
 	conversion_table = {}
 	for c in chars:
-		bin_str = __search_in_tree(ht[0],c)
+		bin_str = __search_in_tree(ht,c)
 		conversion_table[c] = bin_str
+	if create_ht:
+		b ="".join([conversion_table[c] for c in st])
+		return (__bit_to_char(b),cPickle.dumps(ht))
 	return __bit_to_char("".join([conversion_table[c] for c in st]))
 
 def huffman_dec(st):
 	string = ""
-	p="(((((((S'4'\nI963137\nt(S'3'\nI1018943\nttI1982080\nt(((S'2'\nI1175195\nt(S'1'\nI1556659\nttI2731854\nttI4713934\nt(((((S','\nI1677553\nt(((S'0'\nI832167\nt(S'8'\nI860447\nttI1692614\nttI3370167\nt(((((S'7'\nI860586\nt(S'9'\nI864030\nttI1724616\nt(((S'6'\nI875414\nt(S'5'\nI909016\nttI1784430\nttI3509046\nttI6879213\nttI11593147\ntp1\n."
-	ht = cPickle.loads(p)
+	if not isinstance(st,tuple):
+		ht = cPickle.loads(DEFAULT_HT)
+	else:
+		ht = cPickle.loads(st[1])
+		st = st[0]
 	t = ()
-	t = ht[0]
+	t = ht
 	for s in __char_to_bit(st):
-		if isinstance(t[int(s)][0], tuple):
-			t = t[int(s)][0]
+		if isinstance(t[int(s)], tuple):
+			t = t[int(s)]
 		else:
-			string += t[int(s)][0]
-			t = ht[0]
-	return string
+			string += t[int(s)]
+			t = ht
+	return string.replace('\0','')
 
 
 def LZ78_enc(st):
@@ -128,3 +145,14 @@ def LZ78_dec(st):
 			dic.append(entry)
 		pcode = ccode
 	return out_st
+
+def __main():
+	st = open('files/divina_commedia.txt').read()
+	enc = huffman_enc(st,True)
+	dec = huffman_dec(enc)
+	print dec == st
+
+
+
+if __name__=="__main__":
+	__main()
