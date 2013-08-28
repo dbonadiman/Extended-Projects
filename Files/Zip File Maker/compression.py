@@ -4,6 +4,15 @@ import encoding
 import shutil
 import math
 import cPickle
+import zipfile
+
+def zipdir(fi, fo):
+	zip = zipfile.ZipFile(fo, 'w', zipfile.ZIP_DEFLATED))
+	for root, dirs, files in os.walk(fi):
+		for file in files:
+			zip.write(os.path.join(root, file))
+	zip.close()
+
 
 def __h(files):
   data = ""
@@ -131,8 +140,11 @@ def compress(fi,fo):
 	out = __compress_file(ar,fo)
 	os.remove(ar)
 	print "Compressing...Done"
+	print "Zip"
+	zipdir(fi,fi+".zip")
 	print fi+" size was: {} KB and the entryopy:  {}".format(__get_size(fi)/1000.0,__h(fi))
 	print out+" size is: {} KB and the entryopy:  {}".format(__get_size(out)/1000.0,__h(out))
+	print fi+".zip size is: {} KB and the entryopy:  {}".format(__get_size(fi+".zip")/1000.0,__h(fi+".zip"))
 	return out
 
 def decompress(fi,fo):	

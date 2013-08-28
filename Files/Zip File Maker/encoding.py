@@ -2,6 +2,14 @@ import cPickle
 from cStringIO import StringIO
 from  operator import itemgetter
 
+def decimal_to_binary(num, bit):
+	binary = ""
+	while num>0:
+		binary+=str(num%2)
+		num = num/2
+	if len(binary) < bit:
+		binary += str(0)*(bit-len(binary))
+	return binary[::-1]
 
 def __bit_to_char(bit_str):
 	sio = StringIO(bit_str)
@@ -50,13 +58,13 @@ def __traverse(ht,s=""):
 def __initialize_dic():
 	dic = {}
 	for i in range(256):
-		dic[chr(i)]=i
+		dic[chr(i)]=decimal_to_binary(i,12)
 	return dic
 
-def __initialize_lst():
-	dic = []
+def __initialize_rev_dic():
+	dic = {}
 	for i in range(256):
-		dic.insert(i,chr(i))
+		dic[decimal_to_binary(i,12)]=chr(i)
 	return dic
 
 def huffman_enc(st):
@@ -87,48 +95,44 @@ def LZ78_enc(st):
 		if buffer+s in dic:
 			buffer += s
 		else:
-			out_st+=str(dic[buffer])+","
-			dic[buffer+s] = a 
+			out_st+=str(dic[buffer])
+			if a <= 4095:
+				dic[buffer+s] = decimal_to_binary(a,12)
 			a += 1
 			buffer = s
 	out_st+=str(dic[buffer])
-	return out_st
+	return __bit_to_char(out_st)
 
 
 
 def LZ78_dec(st):
-	dic = __initialize_lst()
-	codes = [int(s)  for s in st.split(',') if s!='']
-	pcode = codes[0]
+	dic = __initialize_rev_dic()
+	sio = StringIO(__char_to_bit(st))
+	pcode = sio.read(12)
 	out_st = dic[pcode]
-	for i in range(1,len(codes)):
-		ccode = codes[i]
+	a = len(dic)
+	while 1:
+		ccode = sio.read(12)
+		if not ccode:
+			break
+
 		try:
 			entry =  dic[ccode]
 			out_st += entry
-			dic.append(dic[pcode]+entry[0])
+			dic[decimal_to_binary(a,12)] = dic[pcode]+entry[0]
+
 		except Exception, e:
 			entry = dic[pcode]+dic[pcode][0]
 			out_st += entry
-			dic.append(entry)
+			dic[decimal_to_binary(a,12)] = entry
+		a += 1
 		pcode = ccode
 	return out_st
 
-def __test():
-	st = "Ciao come va?"
-	enc = huffman_enc(st)
-	print enc
-	dec = huffman_dec(enc)
-	print dec
-
-def __bm():
-	st = open('files/divina_commedia.txt').read()
-	enc = huffman_enc(st)
-	dec = huffman_dec(enc)
-
-
 def __main():
-	__bm()
+	st = open('files/divina_commedia.txt').read()
+	enc = LZ78_enc(st)
+	dec = LZ78_dec(enc)
 
 
 
