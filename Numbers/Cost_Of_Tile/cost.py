@@ -10,9 +10,9 @@ class Square:
 
 def input_float(string):
 	try:
-		return float(raw_input(string))
-	except Exception, e:
-		print "Wrong input, retry."
+		return float(input(string))
+	except Exception:
+		print ("Wrong input, retry.")
 		return input_float(string)
 	
 
@@ -25,7 +25,7 @@ def main():
 	width = input_float("What's the width of the floor? \n")
 	height = input_float("What's the height of the floor? \n")
 	floor = Square(width,height)
-	print "The cost of tile is "+str(cost_of_tile(TILE,floor,price))+" $ \n"
+	print ("The cost of tile is "+str(cost_of_tile(TILE,floor,price))+" $ \n")
 
 
 if __name__=="__main__":
