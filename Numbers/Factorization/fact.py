@@ -8,9 +8,9 @@ def factorial(n):
 
 def fact(n,div):
 	div=find_div(n,div)
-	print div
+	print (div)
 	if div!=n:
-		fact(n/div,div)
+		fact(int(n/div),div)
 		
 
 def find_div(n,div):
@@ -26,8 +26,8 @@ def find_div(n,div):
 def main():
 	try:
 		factorial(int(input("Give me a number:")))
-	except Exception, e:
-		print "Wrong input, retry."
+	except Exception:
+		print ("Wrong input, retry.")
 		main()
 	
 

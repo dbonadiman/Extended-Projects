@@ -2,9 +2,9 @@ def factorial(n):
 	div=2
 	while True:
 		div=find_div(n,div)
-		print div
+		print (div)
 		if div!=n:
-			n=n/div
+			n=int(n/div)
 		else:
 			break
 		
@@ -22,8 +22,8 @@ def find_div(n,div):
 def main():
 	try:
 		factorial(int(input("Give me a number:")))
-	except Exception, e:
-		print "Wrong input, retry."
+	except Exception:
+		print ("Wrong input, retry.")
 		main()
 
 if __name__=="__main__":
