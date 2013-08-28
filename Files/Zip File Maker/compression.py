@@ -4,14 +4,6 @@ import encoding
 import shutil
 import math
 import cPickle
-import zipfile
-
-def zipdir(fi, fo):
-	zip = zipfile.ZipFile(fo, 'w', zipfile.ZIP_DEFLATED))
-	for root, dirs, files in os.walk(fi):
-		for file in files:
-			zip.write(os.path.join(root, file))
-	zip.close()
 
 
 def __h(files):
@@ -31,6 +23,7 @@ def __h(files):
       entropy += - p_x*math.log(p_x, 2)
   return entropy
 
+
 def __get_size(start_path = '.'):
 	if os.path.isfile(start_path):
 		return os.path.getsize(start_path)
@@ -44,47 +37,28 @@ def __get_size(start_path = '.'):
 
 
 
-def __compress_file(fi,fo):
+def __compress_file(fi,fo,*args):
 	f = open(fi, 'rb')
-	string = f.read()
+	st = f.read()
 	f.close()
-	name  = fi.split('.')[0]
-	enc = encoding.LZ78_enc(string)
-	zip = encoding.huffman_enc(enc)
+	for arg in args:
+		st = encoding.instance(arg,st).encode()
 	out =open(fo, 'wb')
-	if isinstance(zip,tuple):
-		tmp = cPickle.dumps(zip[1])
-		out.write(str(len(tmp))+"\n")
-		out.write(str(zip[2])+"\n")
-		out.write(tmp)
-		out.write(zip[0])
-	else:
-		out.write(zip)
+	out.write(st)
 	out.close()
 	return fo
 
 
-def __decompress_file(fi):
+def __decompress_file(fi,fo,*args):
 	f = open(fi,'rb')	
-	name  = fi[:-3]
-	data = f.readline()
-	try:
-		size = int(data)
-		d2 = f.readline() 
-		leng = int(d2)
-		data += d2
-	except Exception, e:
-		data += f.read()
-	else:
-		data = f.read()
-		data = (data[size:],cPickle.loads(data[:size]),leng)
+	st = f.read()
 	f.close()
-	enc = encoding.huffman_dec(data)
-	string = encoding.LZ78_dec(enc)
-	f = open(name,'wb')
-	f.write(string+'\n')
+	for arg in args:
+		st = encoding.instance(arg,st).decode()
+	f = open(fo,'wb')
+	f.write(st+'\n')
 	f.close
-	return name
+	return fo
 
 def __folder_pack(fi):
 	if not os.path.isfile(fi):
@@ -137,19 +111,16 @@ def compress(fi,fo):
 	ar = __folder_pack(fi)
 	print "Packing...Done"
 	print "Compressing..."
-	out = __compress_file(ar,fo)
+	out = __compress_file(ar,fo,encoding.LZW16,encoding.HUFFMAN)
 	os.remove(ar)
 	print "Compressing...Done"
-	print "Zip"
-	zipdir(fi,fi+".zip")
 	print fi+" size was: {} KB and the entryopy:  {}".format(__get_size(fi)/1000.0,__h(fi))
 	print out+" size is: {} KB and the entryopy:  {}".format(__get_size(out)/1000.0,__h(out))
-	print fi+".zip size is: {} KB and the entryopy:  {}".format(__get_size(fi+".zip")/1000.0,__h(fi+".zip"))
 	return out
 
 def decompress(fi,fo):	
 	print "Decompressing..."
-	ar = __decompress_file(fi)
+	ar = __decompress_file(fi,fi+'.temp',encoding.HUFFMAN,encoding.LZW16)
 	print "Decompressing...Done"
 	print "Unpacking..."
 	out = __folder_unpack(ar,fo)
@@ -164,7 +135,6 @@ def __main(op,fi,fo):
 		compress(fi,fo)
 	if op=='-d':
 		decompress(fi,fo)
-
 
 
 if __name__=="__main__":
