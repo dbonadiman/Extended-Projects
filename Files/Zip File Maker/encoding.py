@@ -2,8 +2,9 @@ from cStringIO import StringIO
 
 
 HUFFMAN = 0
-LZW12 = 1
 LZW16 = 2
+LZW24 = 3
+LZW32 = 4
 
 
 class Huffman(object):
@@ -109,9 +110,9 @@ class Huffman(object):
 class LZW(object):
 
 	__input =""
-	__bit = 0
+	__bit = 16
 
-	def __init__(self,data,bit=12):
+	def __init__(self,data,bit=16):
 		self.__input=data
 		self.__bit=bit
 
@@ -133,25 +134,25 @@ class LZW(object):
 			out += '{0:08b}'.format(ord(c))
 		return out
 
-	def __decimal_to_binary(self, num, bit):
+	def __decimal_to_chars(self, num, bit):
 		binary = ""
 		while num>0:
 			binary+=str(num%2)
 			num = num/2
 		if len(binary) < bit:
 			binary += str(0)*(bit-len(binary))
-		return binary[::-1]
+		return self.__bit_to_char(binary[::-1])
 
 	def __initialize_dic(self,bit):
 		dic = {}
 		for i in range(256):
-			dic[chr(i)]=self.__decimal_to_binary(i,bit)
+			dic[chr(i)]=self.__decimal_to_chars(i,bit)
 		return dic
 
 	def __initialize_rev_dic(self,bit):
 		dic = {}
 		for i in range(256):
-			dic[self.__decimal_to_binary(i,bit)]=chr(i)
+			dic[self.__decimal_to_chars(i,bit)]=chr(i)
 		return dic
 
 	def encode(self):
@@ -165,34 +166,32 @@ class LZW(object):
 			else:
 				out_st+=str(dic[buffer])
 				if a <= 2**self.__bit:
-					dic[buffer+s] = self.__decimal_to_binary(a,self.__bit)
+					dic[buffer+s] = self.__decimal_to_chars(a,self.__bit)
 				a += 1
 				buffer = s
-		out_st+=str(dic[buffer])
-		return self.__bit_to_char(out_st)
+		out_st+=dic[buffer]
+		return out_st
 
 
 
 	def decode(self):
 		dic = self.__initialize_rev_dic(self.__bit)
-		sio = StringIO(self.__char_to_bit(self.__input))
-		pcode = sio.read(self.__bit)
+		sio = StringIO(self.__input)
+		pcode = sio.read(self.__bit/8)
 		out_st = dic[pcode]
 		a = len(dic)
 		while 1:
-			ccode = sio.read(self.__bit)
+			ccode = sio.read(self.__bit/8)
 			if not ccode:
 				break
-
 			try:
 				entry =  dic[ccode]
 				out_st += entry
-				dic[self.__decimal_to_binary(a,self.__bit)] = dic[pcode]+entry[0]
-
+				dic[self.__decimal_to_chars(a,self.__bit)] = dic[pcode]+entry[0]
 			except Exception, e:
 				entry = dic[pcode]+dic[pcode][0]
 				out_st += entry
-				dic[self.__decimal_to_binary(a,self.__bit)] = entry
+				dic[self.__decimal_to_chars(a,self.__bit)] = entry
 			a += 1
 			pcode = ccode
 		return out_st
@@ -202,31 +201,34 @@ class LZW(object):
 def instance(c,st):
 	if c==0:
 		return Huffman(st)
-	if c==1:
-		return LZW(st)
 	if c==2:
 		return LZW(st,16)
+	if c==3:
+		return LZW(st,24)
+	if c==4:
+		return LZW(st,32)
 	print c
 
 
 def __test():
-	enc = open('files/divina_commedia.txt').read()
-	print len(enc)
-	enc = LZW(enc).encode()
+	s = open('files/pride_and_prejudice.txt').read()
+	#s = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaabbbbbbbbbbbsaaaaaaaaaaaaaaaaaassaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"*100000
+	print len(s)
+	enc = LZW(s,16).encode()
 	print len(enc)
 	enc = Huffman(enc).encode()
 	print len(enc)
 	enc = Huffman(enc).decode()
 	print len(enc)
-	enc = LZW(enc).decode()
+	enc = LZW(enc,16).decode()
 	print len(enc)
+	print enc==s
+
 
 
 
 def __main():
 	__test()
-
-
 
 
 if __name__=="__main__":

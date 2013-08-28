@@ -66,7 +66,9 @@ def __folder_unpack(fi,fo):
 			fa = open(f[0],'wb')
 			fa.write(data)
 			fa.close()
-			__folder_unpack(f[0],f[0][:-4])	
+			__folder_unpack(f[0],f[0][:-5])	
+	else:
+		shutil.copy(fi,fo)
 	os.remove(fi)
 	print fo
 	return fo
