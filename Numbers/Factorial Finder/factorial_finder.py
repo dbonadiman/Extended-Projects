@@ -14,12 +14,16 @@ def factorial_rec(n):
 
 def main():
 	try:
-		n = int(raw_input("N: "))
-	except Exception, e:
-		print "Wrong input,retry."
+		n = int(input("N: "))
+	except Exception:
+		print ("Wrong input,retry.")
 	else:
-		print "N! iterative : {}".format(factorial(n))
-		print "N! recoursive : {}".format(factorial_rec(n))
+		print ("N! iterative : {}".format(factorial(n)))
+		try:
+			print ("N! recoursive : {}".format(factorial_rec(n)))
+		except Exception:
+			print("Too much recursion")
+		
 
 if __name__=="__main__":
 	main()
