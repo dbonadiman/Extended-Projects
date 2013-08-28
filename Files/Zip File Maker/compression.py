@@ -3,6 +3,7 @@ import os
 import encoding
 import shutil
 import math
+import cPickle
 
 def __h(files):
   data = ""
@@ -40,11 +41,13 @@ def __compress_file(fi,fo):
 	f.close()
 	name  = fi.split('.')[0]
 	enc = encoding.LZ78_enc(string)
-	zip = encoding.huffman_enc(enc,True)
+	zip = encoding.huffman_enc(enc)
 	out =open(fo, 'wb')
 	if isinstance(zip,tuple):
-		out.write(str(len(zip[1]))+"\n")
-		out.write(zip[1])
+		tmp = cPickle.dumps(zip[1])
+		out.write(str(len(tmp))+"\n")
+		out.write(str(zip[2])+"\n")
+		out.write(tmp)
 		out.write(zip[0])
 	else:
 		out.write(zip)
@@ -58,11 +61,14 @@ def __decompress_file(fi):
 	data = f.readline()
 	try:
 		size = int(data)
+		d2 = f.readline() 
+		leng = int(d2)
+		data += d2
 	except Exception, e:
 		data += f.read()
 	else:
 		data = f.read()
-		data = (data[size:],data[:size])
+		data = (data[size:],cPickle.loads(data[:size]),leng)
 	f.close()
 	enc = encoding.huffman_dec(data)
 	string = encoding.LZ78_dec(enc)

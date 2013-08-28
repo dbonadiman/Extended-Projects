@@ -1,39 +1,29 @@
-from collections import defaultdict
 import cPickle
 from cStringIO import StringIO
 from  operator import itemgetter
 
-DEFAULT_HT=""
 
 def __bit_to_char(bit_str):
 	sio = StringIO(bit_str)
-	out = StringIO()
+	out = ""
 	while 1:
 		b = sio.read(8)
 		if not b:
 			break
 		if len(b) < 8:
 			b = b + '0' * (8 - len(b))
-		i = int(b, 2)
-		c = chr(i)
-		out.write(c)
-	output = out.getvalue()
-	out.close()
-	return output
+		out+=chr(int(b, 2))
+	return out
 
 def __char_to_bit(string):
-	f = StringIO(string)
-	aa = ''
-	while 1:
-		c = f.read(1)
-		if not c:
-			break
-		aa += '{0:08b}'.format(ord(c))
-	return aa
+	out = ''
+	for c in string:
+		out += '{0:08b}'.format(ord(c))
+	return out
 
-def __ht_from_dic(dic):
-	tuples =  dic.items()
-	tuples += [('\0',0)]
+def __ht_from_st(st):
+	chars = set(st)
+	tuples = [(c,st.count(c)) for c in chars]
 	while len(tuples)>1:
 		m = min(tuples, key=itemgetter(1))
 		tuples.remove(m)
@@ -49,18 +39,13 @@ def __remove_count((a,b)):
 		return (a)
 
 
-def __search_in_tree(ht,c):
-	if ht == c:
-		return ""
+def __traverse(ht,s=""):
+	if not isinstance(ht,tuple):
+		return {ht:s}
 	else:
-		if isinstance(ht, tuple):
-			string  =	__search_in_tree(ht[0],c)
-			if string is None:
-				string  = __search_in_tree(ht[1],c)
-				if not string is None:
-					return "1"+string
-			else:
-				return "0"+string
+		d1 = __traverse(ht[0],s+'0')
+		d1.update(__traverse(ht[1],s+'1'))
+		return d1
 
 def __initialize_dic():
 	dic = {}
@@ -74,40 +59,23 @@ def __initialize_lst():
 		dic.insert(i,chr(i))
 	return dic
 
-def huffman_enc(st,create_ht = False): 
-	if create_ht:
-		dic = defaultdict(int)
-		for s in st:
-			dic[s] += 1
-		ht = __ht_from_dic(dic)
-	else:
-		ht = cPickle.loads(DEFAULT_HT)
-	chars = set(st)
-	conversion_table = {}
-	for c in chars:
-		bin_str = __search_in_tree(ht,c)
-		conversion_table[c] = bin_str
-	if create_ht:
-		b ="".join([conversion_table[c] for c in st])
-		return (__bit_to_char(b),cPickle.dumps(ht))
-	return __bit_to_char("".join([conversion_table[c] for c in st]))
+def huffman_enc(st):
+	ht = __ht_from_st(st)
+	conversion_table = __traverse(ht)
+	s = "".join([conversion_table[c] for c in st])
+	b =__bit_to_char(s)	
+	return (b,ht,len(st))
 
-def huffman_dec(st):
-	string = ""
-	if not isinstance(st,tuple):
-		ht = cPickle.loads(DEFAULT_HT)
-	else:
-		ht = cPickle.loads(st[1])
-		st = st[0]
-	t = ()
-	t = ht
-	for s in __char_to_bit(st):
+def huffman_dec(data):
+	string =""
+	t = data[1]
+	for s in __char_to_bit(data[0]):
 		if isinstance(t[int(s)], tuple):
 			t = t[int(s)]
 		else:
 			string += t[int(s)]
-			t = ht
-	return string.replace('\0','')
+			t = data[1]
+	return string[:data[2]]
 
 
 def LZ78_enc(st):
@@ -146,11 +114,21 @@ def LZ78_dec(st):
 		pcode = ccode
 	return out_st
 
-def __main():
-	st = open('files/divina_commedia.txt').read()
-	enc = huffman_enc(st,True)
+def __test():
+	st = "Ciao come va?"
+	enc = huffman_enc(st)
+	print enc
 	dec = huffman_dec(enc)
-	print dec == st
+	print dec
+
+def __bm():
+	st = open('files/divina_commedia.txt').read()
+	enc = huffman_enc(st)
+	dec = huffman_dec(enc)
+
+
+def __main():
+	__bm()
 
 
 
