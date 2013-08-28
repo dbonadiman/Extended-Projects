@@ -2,46 +2,14 @@ import sys
 import os
 import encoding
 import shutil
-import math
-import cPickle
 
 
-def __h(files):
-  data = ""
-  if os.path.isfile(files):
-  	data = open(files,'rb').read()
-  else:
-  	o=os.listdir(files)
-  	for f in o:
-  		data += open(files+'/'+f,'rb').read()
-  if not data:
-    return 0
-  entropy = 0
-  for x in range(256):
-    p_x = float(data.count(chr(x)))/len(data)
-    if p_x > 0:
-      entropy += - p_x*math.log(p_x, 2)
-  return entropy
-
-
-def __get_size(start_path = '.'):
-	if os.path.isfile(start_path):
-		return os.path.getsize(start_path)
-	total_size = 0
-	for dirpath, dirnames, filenames in os.walk(start_path):
-		for f in filenames:
-			fp = os.path.join(dirpath, f)
-			total_size += os.path.getsize(fp)
-	return total_size
-
-
-
-
-def __compress_file(fi,fo,*args):
+def __compress_file(fi,fo,args):
 	f = open(fi, 'rb')
 	st = f.read()
 	f.close()
 	for arg in args:
+		print encoding.instance(arg,st)
 		st = encoding.instance(arg,st).encode()
 	out =open(fo, 'wb')
 	out.write(st)
@@ -49,84 +17,77 @@ def __compress_file(fi,fo,*args):
 	return fo
 
 
-def __decompress_file(fi,fo,*args):
+def __decompress_file(fi,fo,args):
 	f = open(fi,'rb')	
 	st = f.read()
 	f.close()
 	for arg in args:
+		print encoding.instance(arg,st)
 		st = encoding.instance(arg,st).decode()
 	f = open(fo,'wb')
 	f.write(st+'\n')
 	f.close
 	return fo
 
-def __folder_pack(fi):
+def __folder_pack(fi,fo):
 	if not os.path.isfile(fi):
 		data_to_write=''
-		info = open(fi+".ar",'wb')
+		info = open(fo,'wb')
 		files=os.listdir(fi)
 		info.write('<<FOLDER>>\n')
 		for fa in files:
-			merged_folder = __folder_pack(fi+"/"+fa)
-			print fi+"/"+fa
+			merged_folder = __folder_pack(fi+"/"+fa,fi+"/"+fa+'.temp')
 			a = open(merged_folder,'rb')
 			data = a.read()
 			info.write(merged_folder+'\t'+str(len(data))+'\n')
-			os.remove(merged_folder)
-			data_to_write += data
+			info.write(data)
 			a.close()
+			os.remove(merged_folder)
 		info.write('\n')
-		info.write(data_to_write)
 		info.close()
 	else:
-		shutil.copy(fi,fi+".ar")		
-	return fi+".ar"
+		shutil.copy(fi,fo)
+	print fi		
+	return fo
 
 def __folder_unpack(fi,fo):
 	info = open(fi,'rb')
 	if info.readline()=='<<FOLDER>>\n':
 		files = []
+		if not os.path.exists(fo):
+			os.makedirs(fo)
 		while True:
 			s = info.readline()
 			if s=='\n':
 				break
 			a = s.split('\t')
-			files += [(a[0],int(a[1].replace('\n','')))]
-		data = info.read()
-		if not os.path.exists(fo):
-			os.makedirs(fo)
-		total = 0
-		for f in files:
-			print f[0][:-3]
+			f = (a[0],int(a[1].replace('\n','')))
+			data = info.read(f[1])
 			fa = open(f[0],'wb')
-			fa.write(data[total:total+f[1]])
+			fa.write(data)
 			fa.close()
-			total += f[1]
-			__folder_unpack(f[0],f[0][:-3])
+			__folder_unpack(f[0],f[0][:-4])	
 	os.remove(fi)
+	print fo
 	return fo
 
-def compress(fi,fo):
-	print "Packing..."
-	ar = __folder_pack(fi)
-	print "Packing...Done"
-	print "Compressing..."
-	out = __compress_file(ar,fo,encoding.LZW16,encoding.HUFFMAN)
+def compress(fi,fo,pipeline=[encoding.LZW24,encoding.HUFFMAN]):
+	print "Packing...\n"
+	ar = __folder_pack(fi,fi+'.temp')
+	print "Packing...Done\n"
+	print "Compressing...\n"
+	out = __compress_file(ar,fo,pipeline)
 	os.remove(ar)
-	print "Compressing...Done"
-	print fi+" size was: {} KB and the entryopy:  {}".format(__get_size(fi)/1000.0,__h(fi))
-	print out+" size is: {} KB and the entryopy:  {}".format(__get_size(out)/1000.0,__h(out))
+	print "Compressing...Done\n"
 	return out
 
-def decompress(fi,fo):	
-	print "Decompressing..."
-	ar = __decompress_file(fi,fi+'.temp',encoding.HUFFMAN,encoding.LZW16)
-	print "Decompressing...Done"
-	print "Unpacking..."
+def decompress(fi,fo,pipeline=[encoding.LZW24,encoding.HUFFMAN]):	
+	print "Decompressing...\n"
+	ar = __decompress_file(fi,fi+'.temp',pipeline[::-1])
+	print "Decompressing...Done\n"
+	print "Unpacking...\n"
 	out = __folder_unpack(ar,fo)
-	print "Unpacking...Done"
-	print fi+" size was: {} KB and the entryopy:  {}".format(__get_size(fi)/1000.0,__h(fi))
-	print out+" size is: {} KB and the entryopy:  {}".format(__get_size(out)/1000.0,__h(out))
+	print "Unpacking...Done\n"
 	return out
 
 	
