@@ -2,7 +2,7 @@ def decimal_to_binary(num):
 	binary = ""
 	while num>0:
 		binary+=str(num%2)
-		num = num/2
+		num = int(num/2)
 	return binary[::-1] #this reverse the string
 
 
@@ -16,13 +16,14 @@ def binary_to_decimal(bin):
 
 def main():
 	try:
-		decimal = int(raw_input("A decimal number: "))
-		print decimal_to_binary(decimal)
-		binary = str(raw_input("A binary number: "))
-		print binary_to_decimal(binary)
-	except Exception, e:
-		print "Wrong input, retry."
+		decimal = int(input("A decimal number: "))
+		print (decimal_to_binary(decimal))
+		binary = str(input("A binary number: "))
+		print (binary_to_decimal(binary))
+	except Exception:
+		print("Wrong input,retry.")
 		main()
+	
 
 
 
