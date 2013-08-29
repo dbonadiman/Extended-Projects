@@ -3,12 +3,12 @@ def pig_latin(s):
 
 def main():
 	try:
-		string = raw_input("")
-	except Exception, e:
-		print "Wrong input,retry."
+		string = input("")
+	except Exception:
+		print("Wrong input,retry.")
 		main()
 	else:
-		print pig_latin(string)
+		print(pig_latin(string))
 
 if __name__=="__main__":
 	main()
