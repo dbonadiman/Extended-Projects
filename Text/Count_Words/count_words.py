@@ -3,12 +3,12 @@ def words(s):
 
 def main():
 	try:
-		text = raw_input("")
-	except Exception, e:
-		print "Wrong input,retry."
+		text = input("")
+	except Exception:
+		print("Wrong input,retry.")
 		main()
 	else:
-		print words(text)
+		print(words(text))
 
 if __name__=="__main__":
 	main()
