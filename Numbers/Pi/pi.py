@@ -20,7 +20,7 @@ def opi(i,loops):
 
 def main():
 	outstring = 'The Number is {:.'+str(int(input("Precision:"))+1)+'}'
-	print outstring.format(pi())
+	print(outstring.format(pi()))
 
 if __name__=="__main__":
 	main()
