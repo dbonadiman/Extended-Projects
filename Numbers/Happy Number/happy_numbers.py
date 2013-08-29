@@ -25,16 +25,16 @@ def first_eight_hn():
 
 def main():
 	try:
-		n = int(raw_input("N: "))
-	except Exception, e:
-		print "Wrong Input,retry."
+		n = int(input("N: "))
+	except Exception:
+		print("Wrong Input,retry.")
 		main()
 	else:
 		if happy_number(n):
-			print "{} is an Happy Number".format(n)
+			print("{} is an Happy Number".format(n))
 		else:
-			print "{} is not an Happy Number".format(n)
-		print "The first 8 happy numbers are {}".format(first_eight_hn())
+			print("{} is not an Happy Number".format(n))
+		print("The first 8 happy numbers are {}".format(first_eight_hn()))
 
 
 
