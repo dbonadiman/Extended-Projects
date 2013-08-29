@@ -7,7 +7,7 @@ def collaz(num):
 			break
 		steps += 1
 		if num%2==0:
-			num=num/2
+			num=int(num/2)
 		else:
 			num=num*3+1		
 	return steps
@@ -15,12 +15,12 @@ def collaz(num):
 
 def main():
 	try:
-		num = int(raw_input("Number:"))
-	except Exception, e:
-		print "Wrong input, retry."
+		num = int(input("Number:"))
+	except Exception:
+		print("Wrong input, retry.")
 		main()
 	else:
-		print collaz(num)
+		print(collaz(num))
 
 
 if __name__ == "__main__":
