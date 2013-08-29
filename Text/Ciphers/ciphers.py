@@ -36,18 +36,18 @@ def vernam_dec(s,key):
 
 def main():
 	try:
-		text = raw_input("").lower()
-	except Exception, e:
-		print "Wrong input,retry."
+		text = input("").lower()
+	except Exception:
+		print("Wrong input,retry.")
 		main()
 	else:
-		print cesar_enc(text,4)
-		print cesar_dec(cesar_enc(text,4),4)==text
-		print vigenere_enc(text,"lemon")
-		print vigenere_dec(vigenere_enc(text,"lemon"),"lemon")==text
+		print(cesar_enc(text,4))
+		print(cesar_dec(cesar_enc(text,4),4)==text)
+		print(vigenere_enc(text,"lemon"))
+		print(vigenere_dec(vigenere_enc(text,"lemon"),"lemon")==text)
 		key = get_key(text)
-		print vernam_enc(text,key)
-		print vernam_dec(vernam_enc(text,key),key)==text
+		print(vernam_enc(text,key))
+		print(vernam_dec(vernam_enc(text,key),key)==text)
 
 
 		
