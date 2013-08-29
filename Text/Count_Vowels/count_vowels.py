@@ -4,12 +4,12 @@ def vowels(s):
 
 def main():
 	try:
-		string = raw_input("")
-	except Exception, e:
-		print "Wrong input,retry."
+		string = input("")
+	except Exception:
+		print("Wrong input,retry.")
 		main()
 	else:
-		print vowels(string)
+		print(vowels(string))
 
 
 if __name__=="__main__":
