@@ -3,12 +3,12 @@ def reverse(s):
 
 def main():
 	try:
-		string = raw_input("")
-	except Exception, e:
-		print "Wrong input, retry."
+		string = input("")
+	except Exception:
+		print("Wrong input, retry.")
 		main()
 	else:
-		print reverse(string)
+		print(reverse(string))
 
 
 if __name__=="__main__":
