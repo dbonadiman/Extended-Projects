@@ -41,11 +41,11 @@ __uptotrillion = {
 
 def digit_to_name(n):
 	for dig in __uptotrillion.keys():
-		if n/dig!=0:
+		if int(n/dig)!=0:
 			if n%dig == 0:
-				return digit_to_name(n/dig)+" "+__uptotrillion[dig]
+				return digit_to_name(int(n/dig))+" "+__uptotrillion[dig]
 			else:
-				return digit_to_name(n/dig)+" "+__uptotrillion[dig]+" "+digit_to_name(n%dig)
+				return digit_to_name(int(n/dig))+" "+__uptotrillion[dig]+" "+digit_to_name(n%dig)
 
 	if n<100 and n>=20:
 		for dig in __dec.keys():
@@ -58,14 +58,14 @@ def digit_to_name(n):
 
 def main():
 	try:
-		n = int(raw_input("N: "))
+		n = int(input("N: "))
 		if n==0:
 			raise Exception('error','wrong input')
-	except Exception, e:
-		print "Wrong input, retry."
+	except Exception:
+		print("Wrong input, retry.")
 		main()
 	else:
-		print digit_to_name(n)
+		print(digit_to_name(n))
 
 
 if __name__=="__main__":
