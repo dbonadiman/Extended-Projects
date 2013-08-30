@@ -1,6 +1,3 @@
-from cStringIO import StringIO
-
-
 HUFFMAN = 0
 LZW16 = 2
 LZW24 = 3
@@ -13,14 +10,13 @@ class Huffman(object):
 
 	def __init__(self,data):
 		self.__input=data
-
+		
+	def __chunks(self,l, n):
+		return [l[i:i+n] for i in range(0, len(l), n)]
+		
 	def __bit_to_char(self,bit_str):
-		sio = StringIO(bit_str)
 		out = ""
-		while 1:
-			b = sio.read(8)
-			if not b:
-				break
+		for b in self.__chunks(bit_str,8):
 			if len(b) < 8:
 				b = b + '0' * (8 - len(b))
 			out+=chr(int(b, 2))
@@ -29,33 +25,35 @@ class Huffman(object):
 	def __char_to_bit(self,string):
 		out = ''
 		for c in string:
-			out += '{0:08b}'.format(ord(c))
+			if  isinstance(c, str):
+				c = ord(c)
+			out += '{0:08b}'.format(c)
 		return out
 
 	def __dump_data(self,data):
-		import cPickle
-
-		out =StringIO()
-		tmp = cPickle.dumps(data[1])
-		out.write(str(len(tmp))+"\n")
-		out.write(str(data[0])+"\n")
-		out.write(tmp)
-		out.write(data[2])
-		re = out.getvalue()
-		out.close()
-		return re
+		import pickle
+		tmp = pickle.dumps(data[1])
+		out=""
+		out+=str(len(tmp))+"\n"
+		out+=str(data[0])+"\n"
+		if bytes is str:
+			out+=tmp
+			out+=data[2].decode("ISO-8859-1")
+		else:
+			out+=tmp.decode("ISO-8859-1")
+			out+=data[2]
+		return out
 
 
 	def __loads_data(self,st):
-		import cPickle
-
-		f = StringIO(st)
-		data = f.readline()
+		import pickle
+		f = st.split('\n',2)
+		data = f[0]
 		size = int(data)
-		d2 = f.readline() 
+		d2 = f[1]
 		leng = int(d2)
-		data = f.read()
-		return(leng,cPickle.loads(data[:size]),data[size:])
+		data = f[2]
+		return(leng,pickle.loads(data[:size].encode("ISO-8859-1")),data[size:].encode("ISO-8859-1"))
 
 
 
@@ -72,11 +70,13 @@ class Huffman(object):
 			tuples += [((m,n),m[1]+n[1])]
 		return self.__remove_count(tuples[0])
 
-	def __remove_count(self,(a,b)):
-		if isinstance(a,tuple):
-			return (self.__remove_count(a[0]),self.__remove_count(a[1]))
+	def __remove_count(self,c):
+		if not isinstance(c,tuple):
+			raise Exception("{} is not a tuple".format(c))
+		if isinstance(c[0],tuple):
+			return (self.__remove_count(c[0][0]),self.__remove_count(c[0][1]))
 		else:
-			return (a)
+			return (c[0])
 
 	def __traverse(self,ht,s=""):
 		if not isinstance(ht,tuple):
@@ -116,13 +116,12 @@ class LZW(object):
 		self.__input=data
 		self.__bit=bit
 
+	def __chunks(self,l, n):
+		return [l[i:i+n] for i in range(0, len(l), n)]
+		
 	def __bit_to_char(self,bit_str):
-		sio = StringIO(bit_str)
 		out = ""
-		while 1:
-			b = sio.read(8)
-			if not b:
-				break
+		for b in self.__chunks(bit_str,8):
 			if len(b) < 8:
 				b = b + '0' * (8 - len(b))
 			out+=chr(int(b, 2))
@@ -134,11 +133,12 @@ class LZW(object):
 			out += '{0:08b}'.format(ord(c))
 		return out
 
+
 	def __decimal_to_chars(self, num, bit):
 		binary = ""
 		while num>0:
 			binary+=str(num%2)
-			num = num/2
+			num = int(num/2)
 		if len(binary) < bit:
 			binary += str(0)*(bit-len(binary))
 		return self.__bit_to_char(binary[::-1])
@@ -160,11 +160,18 @@ class LZW(object):
 		out_st = ""
 		buffer = ""
 		a = len(dic)
-		for s in self.__input:
+		if bytes is str:
+			string = self.__input
+		else:
+			if isinstance(self.__input, bytes):
+				string = [chr(b) for b in self.__input]
+			else:
+				string = [chr(b) for b in bytes(self.__input.encode("UTF-8"))]
+		for s in string:
 			if buffer+s in dic:
 				buffer += s
 			else:
-				out_st+=str(dic[buffer])
+				out_st+=dic[buffer]
 				if a <= 2**self.__bit:
 					dic[buffer+s] = self.__decimal_to_chars(a,self.__bit)
 				a += 1
@@ -172,23 +179,22 @@ class LZW(object):
 		out_st+=dic[buffer]
 		return out_st
 
-
+	def __chunks(self,l, n):
+		return [l[i:i+n] for i in range(0, len(l), n)]
 
 	def decode(self):
+		chunk_size = int(self.__bit/8)
 		dic = self.__initialize_rev_dic(self.__bit)
-		sio = StringIO(self.__input)
-		pcode = sio.read(self.__bit/8)
+		
+		pcode = self.__input[:chunk_size]
 		out_st = dic[pcode]
 		a = len(dic)
-		while 1:
-			ccode = sio.read(self.__bit/8)
-			if not ccode:
-				break
+		for ccode in self.__chunks(self.__input[chunk_size:],chunk_size):
 			try:
 				entry =  dic[ccode]
 				out_st += entry
 				dic[self.__decimal_to_chars(a,self.__bit)] = dic[pcode]+entry[0]
-			except Exception, e:
+			except Exception:
 				entry = dic[pcode]+dic[pcode][0]
 				out_st += entry
 				dic[self.__decimal_to_chars(a,self.__bit)] = entry
@@ -207,22 +213,22 @@ def instance(c,st):
 		return LZW(st,24)
 	if c==4:
 		return LZW(st,32)
-	print c
+	print(c)
 
 
 def __test():
 	s = open('files/pride_and_prejudice.txt').read()
-	#s = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaabbbbbbbbbbbsaaaaaaaaaaaaaaaaaassaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"*100000
-	print len(s)
+	#s = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaabbbbbbbbbbbsaaaaaaaaaaaaaaaaaassaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"*1000
+	print(len(s))
 	enc = LZW(s,16).encode()
-	print len(enc)
+	print(len(enc))
 	enc = Huffman(enc).encode()
-	print len(enc)
+	print(len(enc))
 	enc = Huffman(enc).decode()
-	print len(enc)
-	enc = LZW(enc,16).decode()
-	print len(enc)
-	print enc==s
+	print(len(enc))
+	enc =LZW(enc,16).decode()
+	print(len(enc))
+	print(enc==s)
 
 
 
