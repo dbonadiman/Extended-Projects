@@ -25,7 +25,10 @@ def __decompress_file(fi,fo,args):
 		print(encoding.instance(arg,st))
 		st = encoding.instance(arg,st).decode()
 	f = open(fo,'wb')
-	f.write(st+'\n')
+	if bytes is str:
+		f.write((st+'\n'))
+	else:
+		f.write(bytes((st+'\n'), 'UTF-8'))
 	f.close
 	return fo
 

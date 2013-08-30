@@ -47,6 +47,7 @@ class Huffman(object):
 
 	def __loads_data(self,st):
 		import pickle
+		st = st.decode('utf-8')
 		f = st.split('\n',2)
 		data = f[0]
 		size = int(data)
