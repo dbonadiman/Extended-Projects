@@ -199,18 +199,18 @@ def __test():
 	import pickle
 	s = open('files/pride_and_prejudice.txt','rb').read()
 #	s = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaabbbb"*6
-	print len(s)
+	print(len(s))
 	enc = LZW(s,16).encode()
-	print len(enc)
+	print(len(enc))
 	enc = Huffman(enc).encode()
-	print len(enc)
+	print(len(enc))
 	enc =Huffman(enc).decode()
-	print len(enc)
+	print(len(enc))
 	enc =LZW(enc,16).decode()
 	
-	print len(enc)
+	print(len(enc))
 	
-	print s==enc
+	print(s==enc)
 
 
 
