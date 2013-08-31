@@ -12,7 +12,7 @@ def __compress_file(fi,fo,args):
 		print(encoding.instance(arg,st))
 		st = encoding.instance(arg,st).encode()
 	out =open(fo, 'wb')
-	out.write(st.encode("utf-8"))
+	out.write(st)
 	out.close()
 	return fo
 
@@ -25,10 +25,8 @@ def __decompress_file(fi,fo,args):
 		print(encoding.instance(arg,st))
 		st = encoding.instance(arg,st).decode()
 	f = open(fo,'wb')
-	if bytes is str:
-		f.write((st+'\n'))
-	else:
-		f.write(bytes((st+'\n'), 'UTF-8'))
+
+	f.write(st)
 	f.close
 	return fo
 
@@ -42,9 +40,9 @@ def __folder_pack(fi,fo):
 			merged_folder = __folder_pack(fi+"/"+fa,fi+"/"+fa+'.temp')
 			a = open(merged_folder,'rb')
 			data = a.read()
-			info.write(merged_folder.encode('utf-8'))
-			info.write('\t{}\n'.format(len(data)).encode('utf-8'))
+			info.write('{}\t{}\n'.format(merged_folder,len(data)).encode('utf-8'))
 			info.write(data)
+			info.write('\n'.encode('utf-8'))
 			a.close()
 			os.remove(merged_folder)
 		info.write('\n'.encode('utf-8'))
@@ -56,21 +54,27 @@ def __folder_pack(fi,fo):
 
 def __folder_unpack(fi,fo):
 	info = open(fi,'rb')
-	if info.readline()=='<<FOLDER>>\n':
+	if info.readline()=='<<FOLDER>>\n'.encode('utf-8'):
 		files = []
 		if not os.path.exists(fo):
 			os.makedirs(fo)
 		while True:
-			s = info.readline()
+			s = info.readline().decode('utf-8')
+			print(s)
 			if s=='\n':
 				break
 			a = s.split('\t')
-			f = (a[0],int(a[1].replace('\n','')))
+			try:
+				f = (a[0],int(a[1].replace('\n','')))
+			except Exception:
+				print(a)
+				raise Exception()
 			data = info.read(f[1])
-			fa = open(f[0],'wb')
+			print(data.decode('latin-1'))
+			fa = open(f[0].replace('\0',''),'wb')
 			fa.write(data)
 			fa.close()
-			__folder_unpack(f[0],f[0][:-5])	
+			__folder_unpack(f[0].replace('\0',''),f[0][:-5].replace('\0',''))	
 	else:
 		shutil.copy(fi,fo)
 	os.remove(fi)
@@ -105,8 +109,4 @@ def __main(op,fi,fo):
 
 
 if __name__=="__main__":
-	try:
 		__main(sys.argv[1],sys.argv[2],sys.argv[3])
-	except Exception:
-		__main('-c','files','files.compress')
-		__main('-d','files.compress','files')
