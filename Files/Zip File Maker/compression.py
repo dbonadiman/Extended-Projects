@@ -59,16 +59,13 @@ def __folder_unpack(fi,fo):
 			os.makedirs(fo)
 		while True:
 			s = info.readline().decode('utf-8')
-			print(s)
 			if s=='\n':
 				break
 			a = s.split('\t')
 			try:
 				f = (a[0],int(a[1].replace('\n','')))
 			except Exception:
-				print(a)
 				raise Exception()
-			print(f[1])
 			data = info.read(f[1])
 			fa = open(f[0].replace('\0',''),'wb')
 			fa.write(data)
@@ -100,12 +97,12 @@ def decompress(fi,fo,pipeline=[encoding.LZW16,encoding.HUFFMAN]):
 	return out
 
 	
-def __main(op,fi,fo):
+def __main(op,fi):
 	if op=='-c':
-		compress(fi,fo)
+		compress(fi,fi+'.co')
 	if op=='-d':
-		decompress(fi,fo)
+		decompress(fi,fi[:-3])
 
 
 if __name__=="__main__":
-		__main(sys.argv[1],sys.argv[2],sys.argv[3])
+		__main(sys.argv[1],sys.argv[2])
