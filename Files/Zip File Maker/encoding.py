@@ -1,7 +1,8 @@
+import struct
+
 HUFFMAN = 0
-LZW16 = 2
-LZW24 = 3
-LZW32 = 4
+LZW16 = 1
+LZW32 = 2
 
 
 class Huffman(object):
@@ -75,10 +76,11 @@ class Huffman(object):
 
 	def encode(self):
 		ht = self.__ht
+		
 		conversion_table = self.__traverse(ht)
 		s = "".join([conversion_table[c] for c in self.__input])
 		b =self.__bit_to_char(s)
-		return b
+		return bytearray(b)
 
 
 	def decode(self):
@@ -98,99 +100,68 @@ class LZW(object):
 
 	__input =""
 	__bit = 16
+	
+	__b = {
+		16: "!H",
+		32: "!I",
+		64: "!Q"
+	}
 
 	def __init__(self,data,bit=16):
 		self.__input=data
 		self.__bit=bit
 
-	def __chunks(self,l, n):
-		return [l[i:i+n] for i in range(0, len(l), n)]
-		
-	def __bit_to_char(self,bit_str):
-		out = []
-		for b in self.__chunks(bit_str,8):
-			if len(b) < 8:
-				b = b + '0' * (8 - len(b))
-			out+=[int(b, 2)]
-		return out
-
-	def __char_to_bit(self,string):
-		out = ''
-		for c in string:
-			out += '{0:08b}'.format(ord(c))
-		return out
-
-
-	def __decimal_to_chars(self, num, bit):
-		binary = ""
-		while num>0:
-			binary+=str(num%2)
-			num = int(num/2)
-		if len(binary) < bit:
-			binary += str(0)*(bit-len(binary))
-		return self.__bit_to_char(binary[::-1])
-
-	def __initialize_dic(self,bit):
-		dic = {}
-		for i in range(256):
-			dic[str(bytearray([i]))]=bytearray(self.__decimal_to_chars(i,bit))
-		return dic
-
-	def __initialize_rev_dic(self,bit):
-		dic = {}
-		for i in range(256):
-			dic[str(bytearray(self.__decimal_to_chars(i,bit)))]=bytearray([i])
-		return dic
 
 	def encode(self):
-		dic = self.__initialize_dic(self.__bit)
+		dict_size = 256
+		#dictionary = dict((chr(i), chr(i)) for i in xrange(dict_size))
+		dic = {str([i]): i for i in range(dict_size)}
 		out_st = bytearray()
-		buffer = bytearray()
-		a = len(dic)
-		for s in self.__input:
-			if str(buffer+bytearray([s])) in dic:
-				buffer += bytearray([s])
+		buff = []
+		for s in bytearray(self.__input):
+			buffers = buff+[s]
+			if str(buffers) in dic:
+				buff = buffers
 			else:
-				out_st+=dic[str(buffer)]
-				if a <= 2**self.__bit:
-					dic[str(buffer+bytearray([s]))] = bytearray(self.__decimal_to_chars(a,self.__bit))
-				a += 1
-				buffer = bytearray([s])
-		out_st+=dic[str(buffer)]
+				out_st+=struct.pack(self.__b[self.__bit], dic[str(buff)])
+				if dict_size<2**self.__bit:
+					dic[str(buffers)] = dict_size
+					dict_size += 1
+				buff = [s]
+		if buff:
+			out_st+=struct.pack(self.__b[self.__bit], dic[str(buff)])
 		return out_st
 
 	def __chunks(self,l, n):
 		return [l[i:i+n] for i in range(0, len(l), n)]
 
 	def decode(self):
-		chunk_size = int(self.__bit/8)
-		dic = self.__initialize_rev_dic(self.__bit)
-		pcode = self.__input[:chunk_size]
-		out_st = dic[str(pcode)]
-		a = len(dic)
-		for ccode in self.__chunks(self.__input[chunk_size:],chunk_size):
-			try:
-				entry =  dic[str(ccode)]
-				out_st += entry
-				dic[str(bytearray(self.__decimal_to_chars(a,self.__bit)))] = dic[str(pcode)]+bytearray([entry[0]])
-			except Exception:
-				entry = dic[str(pcode)]+bytearray([dic[str(pcode)][0]])
-				out_st += entry
-				dic[str(bytearray(self.__decimal_to_chars(a,self.__bit)))] = entry
-			a += 1
-			pcode = ccode
-		return out_st
+		dict_size = 256
+		#dictionary = dict((chr(i), chr(i)) for i in xrange(dict_size))
+		dic = {i: [i] for i in range(dict_size)}
+		array = [struct.unpack(self.__b[self.__bit], s)[0] for s in self.__chunks(self.__input, 2)]
+		out_st = pentry = dic[array.pop(0)]
+		for ccode in array:
+			if ccode in dic:
+				entry =  dic[ccode]
+			elif ccode==dict_size:
+				entry = pentry+[pentry[0]]
+			else:
+				raise ValueError(str(ccode))
+			out_st += entry
+			dic[dict_size] = pentry+[entry[0]]
+			dict_size +=1
+			pentry = entry
+		return bytearray(out_st)
 
 		
 
 def instance(c,st):
 	if c==0:
 		return Huffman(st)
-	if c==2:
+	if c==1:
 		return LZW(st,16)
-	if c==3:
-		return LZW(st,24)
-	if c==4:
+	if c==2:
 		return LZW(st,32)
 	print(c)
 
@@ -198,8 +169,9 @@ def instance(c,st):
 def __test():
 	import pickle
 	s = open('files/pride_and_prejudice.txt','rb').read()
-#	s = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaabbbb"*6
+	#s = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaabbbb"*45
 	print(len(s))
+	#print 100
 	enc = LZW(s,16).encode()
 	print(len(enc))
 	enc = Huffman(enc).encode()
@@ -207,10 +179,11 @@ def __test():
 	enc =Huffman(enc).decode()
 	print(len(enc))
 	enc =LZW(enc,16).decode()
-	
 	print(len(enc))
+	if not s==enc:
+		open('error.log.txt','wb').write(enc)
+
 	
-	print(s==enc)
 
 
 

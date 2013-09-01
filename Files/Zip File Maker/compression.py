@@ -40,10 +40,9 @@ def __folder_pack(fi,fo):
 			merged_folder = __folder_pack(fi+"/"+fa,fi+"/"+fa+'.temp')
 			a = open(merged_folder,'rb')
 			data = a.read()
-			info.write('{}\t{}\n'.format(merged_folder,len(data)).encode('utf-8'))
-			info.write(data)
-			info.write('\n'.encode('utf-8'))
 			a.close()
+			info.write('{}\t{}\n'.format(merged_folder,len(bytearray(data))).encode('utf-8'))
+			info.write(bytearray(data))
 			os.remove(merged_folder)
 		info.write('\n'.encode('utf-8'))
 		info.close()
@@ -69,8 +68,8 @@ def __folder_unpack(fi,fo):
 			except Exception:
 				print(a)
 				raise Exception()
+			print(f[1])
 			data = info.read(f[1])
-			print(data.decode('latin-1'))
 			fa = open(f[0].replace('\0',''),'wb')
 			fa.write(data)
 			fa.close()
@@ -81,7 +80,7 @@ def __folder_unpack(fi,fo):
 	print(fo)
 	return fo
 
-def compress(fi,fo,pipeline=[encoding.LZW24,encoding.HUFFMAN]):
+def compress(fi,fo,pipeline=[encoding.LZW16,encoding.HUFFMAN]):
 	print("Packing...\n")
 	ar = __folder_pack(fi,fi+'.temp')
 	print("Packing...Done\n")
@@ -91,7 +90,7 @@ def compress(fi,fo,pipeline=[encoding.LZW24,encoding.HUFFMAN]):
 	print("Compressing...Done\n")
 	return out
 
-def decompress(fi,fo,pipeline=[encoding.LZW24,encoding.HUFFMAN]):	
+def decompress(fi,fo,pipeline=[encoding.LZW16,encoding.HUFFMAN]):	
 	print("Decompressing...\n")
 	ar = __decompress_file(fi,fi+'.temp',pipeline[::-1])
 	print("Decompressing...Done\n")
