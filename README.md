@@ -102,13 +102,23 @@ Text
 
 **Reverse a String** - Enter a string and the program will reverse it and print it out.
 
+[Python](https://github.com/dbonadiman/Extended-Projects/blob/master/Text/Reverse_String/reverse_string.py)
+
 **Pig Latin** - Pig Latin is a game of alterations played on the English language game. To create the Pig Latin form of an English word the initial consonant sound is transposed to the end of the word and an ay is affixed (Ex.: "banana" would yield anana-bay). Read Wikipedia for more information on rules.
+
+[Python](https://github.com/dbonadiman/Extended-Projects/blob/master/Text/Pig_Latin/pig_latin.py)
 
 **Count Vowels** - Enter a string and the program counts the number of vowels in the text. For added complexity have it report a sum of each vowel found.
 
+[Python](https://github.com/dbonadiman/Extended-Projects/blob/master/Text/Count_Vowels/count_vowels.py)
+
 **Check if Palindrome** - Checks if the string entered by the user is a palindrome. That is that it reads the same forwards as backwards like “racecar”
 
+[Python](https://github.com/dbonadiman/Extended-Projects/blob/master/Text/Check_Palindrome/check_palindrome.py)
+
 **Count Words in a String** - Counts the number of individual words in a string. For added complexity read these strings in from a text file and generate a summary.
+
+[Python](https://github.com/dbonadiman/Extended-Projects/blob/master/Text/Count_Words/count_words.py)
 
 **Text Editor** - Notepad style application that can open, edit, and save text documents. *Optional: Add syntax highlighting and other features.*
 
@@ -123,6 +133,8 @@ Text
 **Fortune Teller (Horoscope)** - A program that checks your horoscope on various astrology sites and puts them together for you each day.
 
 **Vigenere / Vernam / Ceasar Ciphers** - Functions for encrypting and decrypting data messages. Then send them to a friend.
+
+[Python](https://github.com/dbonadiman/Extended-Projects/blob/master/Text/Ciphers/ciphers.py)
 
 **Random Gift Suggestions** - Enter various gifts for certain people when you think of them. When its time to give them a gift (xmas, birthday, anniversary) it will randomly pick one. *Optional: Suggest places you can get it (link to Amazon page?).*
 
@@ -210,6 +222,8 @@ Files
 **Sort Excel/CSV File Utility** - Reads a file of records, sorts them, and then writes them back to the file. Allow the user to choose various sort style and sorting based on a particular field.
 
 **Create Zip File Maker** - The user enters various files from different directories and the program zips them up into a zip file. *Optional: Apply actual compression to the files. Start with Huffman Algorithm.*
+
+[Python - Incomplete](https://github.com/dbonadiman/Extended-Projects/tree/master/Files/Archive)
 
 **PDF Generator** - An application which can read in a text file, html file or some other file and generates a PDF file out of it. Great for a web based service where the user uploads the file and the program returns a PDF of the file. *Optional: Deploy on GAE or Heroku if possible.*
 
