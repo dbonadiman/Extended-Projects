@@ -1,18 +1,18 @@
-def __init_graph__(maximum):
+def __init_graph(maximum):
 	return [[0 for j in range(0,maximum+1)] for i in range(0,maximum+1)]
 
 
 
 def graph(links):	
 	m =  max(max(n for (n,k) in links),max(k for (n,k) in links))
-	graph = __init_graph__(m)
+	graph = __init_graph(m)
 	for (n,k) in links:
 		graph[n][k] = 1
 	return graph
 
 def print_matrix(m):
 	for l in m:
-		print l
+		print(l)
 
 
 def main():
