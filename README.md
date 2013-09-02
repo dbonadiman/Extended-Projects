@@ -44,7 +44,9 @@ Numbers
 
 [Python](https://github.com/dbonadiman/Extended-Projects/blob/master/Numbers/Calculator/calculator.py)
 
-**Unit Converter (temp, currency, volume, mass and more)** [Solution](https://github.com/dbonadiman/Extended-Projects/blob/master/Numbers/Unit%20Converter/unit_converter.py) - Converts various units between one another. The user enters the type of unit being entered, the type of unit they want to convert to and then the value. The program will then make the conversion.
+**Unit Converter (temp, currency, volume, mass and more)**  - Converts various units between one another. The user enters the type of unit being entered, the type of unit they want to convert to and then the value. The program will then make the conversion.
+
+[Python - Temperature Only](https://github.com/dbonadiman/Extended-Projects/blob/master/Numbers/Unit%20Converter/unit_converter.py)
 
 **Alarm Clock** - A simple clock where it plays a sound after X number of minutes/seconds or at a particular time.
 
@@ -54,26 +56,42 @@ Numbers
 
 **Tax Calculator** - Asks the user to enter a cost and either a country or state tax. It then returns the tax plus the total cost with tax.
 
-**Factorial Finder** [Solution](https://github.com/dbonadiman/Extended-Projects/blob/master/Numbers/Factorial%20Finder/factorial_finder.py) - The Factorial of a positive integer, n, is defined as the product of the sequence n, n-1, n-2, ...1 and the factorial of zero, 0, is defined as being 1. Solve this using both loops and recursion.
+**Factorial Finder**  - The Factorial of a positive integer, n, is defined as the product of the sequence n, n-1, n-2, ...1 and the factorial of zero, 0, is defined as being 1. Solve this using both loops and recursion.
+
+[Python](https://github.com/dbonadiman/Extended-Projects/blob/master/Numbers/Factorial%20Finder/factorial_finder.py)
 
 **Complex Number Algebra** - Show addition, multiplication, negation, and inversion of complex numbers in separate functions. (Subtraction and division operations can be made with pairs of these operations.) Print the results for each operation tested.
 
-**Happy Numbers**  [Solution](https://github.com/dbonadiman/Extended-Projects/blob/master/Numbers/Happy%20Number/happy_numbers.py) - A happy number is defined by the following process. Starting with any positive integer, replace the number by the sum of the squares of its digits, and repeat the process until the number equals 1 (where it will stay), or it loops endlessly in a cycle which does not include 1. Those numbers for which this process ends in 1 are happy numbers, while those that do not end in 1 are unhappy numbers. Display an example of your output here. Find first 8 happy numbers.
+**Happy Numbers** - A happy number is defined by the following process. Starting with any positive integer, replace the number by the sum of the squares of its digits, and repeat the process until the number equals 1 (where it will stay), or it loops endlessly in a cycle which does not include 1. Those numbers for which this process ends in 1 are happy numbers, while those that do not end in 1 are unhappy numbers. Display an example of your output here. Find first 8 happy numbers.
 
-**Number Names** [Solution](https://github.com/dbonadiman/Extended-Projects/blob/master/Numbers/Number%20Names/number_names.py) - Show how to spell out a number in English. You can use a preexisting implementation or roll your own, but you should support inputs up to at least one million (or the maximum value of your language's default bounded integer type, if that's less). *Optional: Support for inputs other than positive integers (like zero, negative integers, and floating-point numbers).*
+[Python](https://github.com/dbonadiman/Extended-Projects/blob/master/Numbers/Happy%20Number/happy_numbers.py)
+
+**Number Names**  - Show how to spell out a number in English. You can use a preexisting implementation or roll your own, but you should support inputs up to at least one million (or the maximum value of your language's default bounded integer type, if that's less). *Optional: Support for inputs other than positive integers (like zero, negative integers, and floating-point numbers).*
+
+[Python](https://github.com/dbonadiman/Extended-Projects/blob/master/Numbers/Number%20Names/number_names.py)
 
 Classic Algorithms
 -----------------
 
-**Collatz Conjecture** [Solution](https://github.com/dbonadiman/Extended-Projects/blob/master/Classic%20Algorithms/Collaz%20Conjecture/collaz_conjecture.py) - Start with a number *n > 1*. Find the number of steps it takes to reach one using the following process: If *n* is even, divide it by 2. If *n* is odd, multiply it by 3 and add 1.
+**Collatz Conjecture**  - Start with a number *n > 1*. Find the number of steps it takes to reach one using the following process: If *n* is even, divide it by 2. If *n* is odd, multiply it by 3 and add 1.
+
+[Python](https://github.com/dbonadiman/Extended-Projects/blob/master/Classic%20Algorithms/Collaz%20Conjecture/collaz_conjecture.py)
  
 Graph
 --------
 **Graph from links** - Create a program that will create a graph or network from a series of links.
 
+[Python - Classes](https://github.com/dbonadiman/Extended-Projects/blob/master/Graphs/Graph_Links/graph_links.py)
+
+[Python - Matrix](https://github.com/dbonadiman/Extended-Projects/blob/master/Graphs/Graph_Links/graph_links_simple.py)
+
 **Eulerian Path** - Create a program which will take as an input a graph and output either a Eulerian path or a Eulerian cycle, or state that it is not possible.  A Eulerian Path starts at one node and traverses every edge of a graph  through every node and finishes at another node.  A Eulerian cycle is a eulerian Path that starts and finishes at the same node.
 
+[Python](https://github.com/dbonadiman/Extended-Projects/blob/master/Graphs/Eulerian_Path/eulerian_path.py)
+
 **Connected Graph** - Create a program which takes a graph as an input and outputs whether every node is connected or not.
+
+[Python](https://github.com/dbonadiman/Extended-Projects/blob/master/Graphs/Connected_Graph/connected_graph.py)
 
 **Dijkstra’s Algorithm** - Create a program that finds the shortest path through a graph using its edges.
 
@@ -133,6 +151,8 @@ Classes
 ---------
 
 **Product Inventory Project** - Create an application which manages an inventory of products. Create a product class which has a price, id, and quantity on hand. Then create an *inventory* class which keeps track of various products and can sum up the inventory value.
+
+[Python](https://github.com/dbonadiman/Extended-Projects/blob/master/Classes/Product%20Inventary/product_inventory.py)
 
 **Airline / Hotel Reservation System** - Create a reservation system which books airline seats or hotel rooms. It charges various rates for particular sections of the plane or hotel. Example, first class is going to cost more than coach. Hotel rooms have penthouse suites which cost more. Keep track of when rooms will be available and can be scheduled.
 
