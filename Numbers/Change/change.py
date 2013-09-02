@@ -1,12 +1,10 @@
-from collections import defaultdict 
-
 EURO = [500.0,200.0,100.0,50.0,20.0,10.0,5.0,2.0,1.0,0.50,0.20,0.10,0.05,0.02,0.01]
 
 def change(amount,coin):
-	ret = defaultdict(int)
+	ret = {}
 	for c in coin:		
 		while c<=amount:
-			ret[c] += 1
+			ret[c] = ret.get(c, 0) + 1
 			amount -= c
 	return ret.items()
 
