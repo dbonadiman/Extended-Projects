@@ -143,53 +143,49 @@ class __MTFT(object):
 			l.insert(0, st)
 			out_st+=[st]		
 		return bytearray(out_st)
-		
-		
-
-
 
 __instance = {
-	0:__Huffman,
-	1:__LZW,
-	2:__MTFT
+	0:lambda st:__Huffman(st),
+	1:lambda st:__LZW(st,16),
+	2:lambda st:__LZW(st,32),
+	3:lambda st:__MTFT(st)
 }
 
-pipeline = {
-	"LZW":[1],
+codecs = {
+	"LZW16":[1],
+	"LZW32":[2],
 	"Huffman":[0],
 	"DEFLATE":[1,0]
 }
 
 	
-def encode(s,codecs):
-	codec = pipeline[codecs]
+def encode(s,codec):
+	codec = codecs[codec]
 	for c in codec:
 		s = __instance[c](s).encode()
 	return s
 		
 	
-def decode(s,codecs):
-	codec = pipeline[codecs][::-1]
+def decode(s,codec):
+	codec = codecs[codec][::-1]
 	for c in codec:
 		s = __instance[c](s).decode()
 	return s
 
 
-
-
 def __test():
 	import pickle
 	s = open('files/pride_and_prejudice.txt','rb').read()
+	a = True
 	#print 100
-	enc = s
-	enc = encode(s,"DEFLATE")
-	dec = decode(enc,"DEFLATE")
-
-	return dec == s
-
+	for c in codecs.keys():
+		print(c)
+		enc = s
+		enc = encode(s,c)
+		dec = decode(enc,c)
+		a = a and (dec == s)
 	
-
-
+	return a
 
 
 def __main():
