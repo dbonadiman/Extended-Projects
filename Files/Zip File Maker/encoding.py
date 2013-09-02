@@ -3,6 +3,7 @@ import struct
 HUFFMAN = 0
 LZW16 = 1
 LZW32 = 2
+MTF = 3
 
 
 class Huffman(object):
@@ -139,7 +140,7 @@ class LZW(object):
 		dict_size = 256
 		#dictionary = dict((chr(i), chr(i)) for i in xrange(dict_size))
 		dic = {i: [i] for i in range(dict_size)}
-		array = [struct.unpack(self.__b[self.__bit], s)[0] for s in self.__chunks(self.__input, 2)]
+		array = [struct.unpack(self.__b[self.__bit], s)[0] for s in self.__chunks(self.__input, self.__bit/8)]
 		out_st = pentry = dic[array.pop(0)]
 		for ccode in array:
 			if ccode in dic:
@@ -153,6 +154,35 @@ class LZW(object):
 			dict_size +=1
 			pentry = entry
 		return bytearray(out_st)
+		
+		
+class MTFT(object):
+
+	def __init__(self,data):
+		self.__input=data
+
+
+	def encode(self):
+		dict_size = 256
+		l = [i for i in range(dict_size)]
+		out_st = []
+		for s in bytearray(self.__input):
+			old_index = l.index(s)
+			l.insert(0, l.pop(old_index))
+			out_st+=[old_index]		
+		return bytearray(out_st)
+
+	def decode(self):
+		dict_size = 256
+		l = [i for i in range(dict_size)]
+		out_st = []
+		for s in bytearray(self.__input):
+			st = l.pop(s)
+			l.insert(0, st)
+			out_st+=[st]		
+		return bytearray(out_st)
+
+
 
 		
 
@@ -163,16 +193,19 @@ def instance(c,st):
 		return LZW(st,16)
 	if c==2:
 		return LZW(st,32)
+	if c==3:
+		return MTFT(st)
 	print(c)
 
 
 def __test():
 	import pickle
 	s = open('files/pride_and_prejudice.txt','rb').read()
-	#s = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaabbbb"*45
 	print(len(s))
 	#print 100
-	enc = LZW(s,16).encode()
+	enc = s
+
+	enc = LZW(enc,16).encode()
 	print(len(enc))
 	enc = Huffman(enc).encode()
 	print(len(enc))
@@ -180,7 +213,9 @@ def __test():
 	print(len(enc))
 	enc =LZW(enc,16).decode()
 	print(len(enc))
+
 	if not s==enc:
+		print('Decoding Error')
 		open('error.log.txt','wb').write(enc)
 
 	
