@@ -3,23 +3,22 @@ import os
 import compression 
 import shutil
 
-
-def __compress_file(fi,fo,args):
+def __compress_file(fi,fo,codec="DEFLATE"):
 	f = open(fi, 'rb')
 	st = f.read()
 	f.close()
-	st = compression.encode(st,args)
+	st = compression.encode(st,codec)
 	out =open(fo, 'wb')
 	out.write(st)
 	out.close()
 	return fo
 
 
-def __decompress_file(fi,fo,args):
+def __decompress_file(fi,fo,codec="DEFLATE"):
 	f = open(fi,'rb')	
 	st = f.read()
 	f.close()
-	st = compression.decode(st,args)
+	st = compression.decode(st,codec)
 	f = open(fo,'wb')
 
 	f.write(st)
@@ -73,29 +72,28 @@ def __folder_unpack(fi,fo):
 	print(fo)
 	return fo
 
-def compress(fi,fo,pipeline=None):
-	if pipeline is None:
-		pipeline = [compression.LZW16,compression.HUFFMAN]
+def compress(fi,fo,codec=None):
+	if codec is None:
+		codec = "DEFLATE"
 	print("Packing...\n")
 	ar = __folder_pack(fi,fi+'.temp')
 	print("Packing...Done\n")
 	print("Compressing...\n")
-	out = __compress_file(ar,fo,pipeline)
+	out = __compress_file(ar,fo,codec)
 	os.remove(ar)
 	print("Compressing...Done\n")
 	return out
 
-def decompress(fi,fo,pipeline=None):
-	if pipeline is None:
-		pipeline = [compression.HUFFMAN,compression.LZW16]
+def decompress(fi,fo,codec=None):
+	if codec is None:
+		codec = "DEFLATE"
 	print("Decompressing...\n")
-	ar = __decompress_file(fi,fi+'.temp',pipeline)
+	ar = __decompress_file(fi,fi+'.temp',codec)
 	print("Decompressing...Done\n")
 	print("Unpacking...\n")
 	out = __folder_unpack(ar,fo)
 	print("Unpacking...Done\n")
 	return out
-
 
 
 def __test():

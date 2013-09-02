@@ -1,7 +1,3 @@
-HUFFMAN = 0
-LZW = 1
-MTF = 2
-
 class __Huffman(object):
 
 	__input =""
@@ -158,14 +154,22 @@ __instance = {
 	2:__MTFT
 }
 
+pipeline = {
+	"LZW":[1],
+	"Huffman":[0],
+	"DEFLATE":[1,0]
+}
+
 	
-def encode(s,codec):
+def encode(s,codecs):
+	codec = pipeline[codecs]
 	for c in codec:
 		s = __instance[c](s).encode()
 	return s
 		
 	
-def decode(s,codec):
+def decode(s,codecs):
+	codec = pipeline[codecs][::-1]
 	for c in codec:
 		s = __instance[c](s).decode()
 	return s
@@ -178,8 +182,8 @@ def __test():
 	s = open('files/pride_and_prejudice.txt','rb').read()
 	#print 100
 	enc = s
-	enc = encode(s,[LZW,HUFFMAN])
-	dec = decode(enc,[HUFFMAN,LZW])
+	enc = encode(s,"DEFLATE")
+	dec = decode(enc,"DEFLATE")
 
 	return dec == s
 
