@@ -33,40 +33,6 @@ class Huffman(object):
 			out += '{0:08b}'.format(c)
 		return out
 
-	def __dump_data(self,data):
-		import pickle
-		out = pickle.dumps(data)
-		return out
-
-
-	def __loads_data(self,st):
-		import pickle
-		data = pickle.loads(st)
-		return data
-
-
-
-	def __ht_from_st(self,st):
-		from  operator import itemgetter
-
-		chars = set(st)
-		tuples = [(c,st.count(bytearray([c]))) for c in chars]
-		while len(tuples)>1:
-			m = min(tuples, key=itemgetter(1))
-			tuples.remove(m)
-			n = min(tuples, key=itemgetter(1))
-			tuples.remove(n)
-			tuples += [((m,n),m[1]+n[1])]
-		return self.__remove_count(tuples[0])
-
-	def __remove_count(self,c):
-		if not isinstance(c,tuple):
-			raise Exception("{} is not a tuple".format(c))
-		if isinstance(c[0],tuple):
-			return (self.__remove_count(c[0][0]),self.__remove_count(c[0][1]))
-		else:
-			return (c[0])
-
 	def __traverse(self,ht,s=None):
 		if s is None:
 			s = ""
