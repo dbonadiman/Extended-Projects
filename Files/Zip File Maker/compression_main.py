@@ -20,7 +20,6 @@ def __decompress_file(fi,fo,codec="DEFLATE"):
 	f.close()
 	st = compression.decode(st,codec)
 	f = open(fo,'wb')
-
 	f.write(st)
 	f.close
 	return fo

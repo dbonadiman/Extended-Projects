@@ -20,17 +20,29 @@ Numbers
 
 [Python - Iterative](https://github.com/dbonadiman/Extended-Projects/blob/master/Numbers/Factorization/fact_iter.py) 
 
-**Next Prime Number** [Solution](https://github.com/dbonadiman/Extended-Projects/blob/master/Numbers/Next/next_prime.py) [Solution 2](https://github.com/dbonadiman/Extended-Projects/blob/master/Numbers/Next/next_prime_iter.py) - Have the program find prime numbers until the user chooses to stop asking for the next one.
+**Next Prime Number**  - Have the program find prime numbers until the user chooses to stop asking for the next one.
 
-**Find Cost of Tile to Cover W x H Floor** [Solution](https://github.com/dbonadiman/Extended-Projects/tree/master/Numbers/Cost_Of_Tile/cost.py)- Calculate the total cost of tile it would take to cover a floor plan of width and height, using a cost entered by the user.
+[Python - Recursive](https://github.com/dbonadiman/Extended-Projects/blob/master/Numbers/Next/next_prime.py) 
+
+[Python - Iterative](https://github.com/dbonadiman/Extended-Projects/blob/master/Numbers/Next/next_prime_iter.py)
+
+**Find Cost of Tile to Cover W x H Floor** - Calculate the total cost of tile it would take to cover a floor plan of width and height, using a cost entered by the user.
+
+[Python](https://github.com/dbonadiman/Extended-Projects/tree/master/Numbers/Cost_Of_Tile/cost.py)
 
 **Mortgage Calculator**  - Calculate the monthly payments of a fixed term mortgage over given Nth terms at a given interest rate. Also figure out how long it will take the user to pay back the loan.
 
-**Change Return Program** [Solution](https://github.com/dbonadiman/Extended-Projects/blob/master/Numbers/Change/change.py) - The user enters a cost and then the amount of money given. The program will figure out the change and the number of quarters, dimes, nickels, pennies needed for the change.
+**Change Return Program**  - The user enters a cost and then the amount of money given. The program will figure out the change and the number of quarters, dimes, nickels, pennies needed for the change.
 
-**Binary to Decimal and Back Converter** [Solution](https://github.com/dbonadiman/Extended-Projects/blob/master/Numbers/BinaryToDecimal/binarytodecimal.py) - Develop a converter to convert a decimal number to binary or a binary number to its decimal equivalent.
+[Python](https://github.com/dbonadiman/Extended-Projects/blob/master/Numbers/Change/change.py)
 
-**Calculator** [Solution](https://github.com/dbonadiman/Extended-Projects/blob/master/Numbers/Calculator/calculator.py) - A simple calculator to do basic operators. Make it a scientific calculator for added complexity.
+**Binary to Decimal and Back Converter**  - Develop a converter to convert a decimal number to binary or a binary number to its decimal equivalent.
+
+[Python](https://github.com/dbonadiman/Extended-Projects/blob/master/Numbers/BinaryToDecimal/binarytodecimal.py)
+
+**Calculator**  - A simple calculator to do basic operators. Make it a scientific calculator for added complexity.
+
+[Python](https://github.com/dbonadiman/Extended-Projects/blob/master/Numbers/Calculator/calculator.py)
 
 **Unit Converter (temp, currency, volume, mass and more)** [Solution](https://github.com/dbonadiman/Extended-Projects/blob/master/Numbers/Unit%20Converter/unit_converter.py) - Converts various units between one another. The user enters the type of unit being entered, the type of unit they want to convert to and then the value. The program will then make the conversion.
 
