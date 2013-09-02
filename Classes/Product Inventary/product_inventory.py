@@ -22,7 +22,9 @@ class Product:
 
 class Inventory:
 	__products = []
-	def __init__(self, products =[]):
+	def __init__(self, products = None):
+		if products is None:
+			products = []
 		self.__products+=products
 
 	def add_product(self,p):
