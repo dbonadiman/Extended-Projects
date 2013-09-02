@@ -14,6 +14,8 @@ Numbers
 
 [Python - Iterative](https://github.com/dbonadiman/Extended-Projects/blob/master/Numbers/Fibonacci/fibonacci_iter.py)
 
+[Ruby - Dynamic Programming](https://github.com/dbonadiman/Extended-Projects/blob/master/Numbers/Fibonacci/fibonacci.rb)
+
 **Prime Factorization** - Have the user enter a number and find all Prime Factors (if there are any) and display them.
 
 [Python - Recursive](https://github.com/dbonadiman/Extended-Projects/blob/master/Numbers/Factorization/fact.py) 
@@ -269,4 +271,5 @@ Sources
 =======
 
 [Martyr2’s Mega Project List](http://www.dreamincode.net/forums/topic/78802-martyr2s-mega-project-ideas-list/)
+
 [Rosetta Code](http://rosettacode.org/)
