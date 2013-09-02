@@ -67,7 +67,9 @@ class Huffman(object):
 		else:
 			return (c[0])
 
-	def __traverse(self,ht,s=""):
+	def __traverse(self,ht,s=None):
+		if s is None:
+			s = ""
 		if not isinstance(ht,tuple):
 			return {ht:s}
 		else:
@@ -140,7 +142,7 @@ class LZW(object):
 		dict_size = 256
 		#dictionary = dict((chr(i), chr(i)) for i in xrange(dict_size))
 		dic = {i: [i] for i in range(dict_size)}
-		array = [struct.unpack(self.__b[self.__bit], s)[0] for s in self.__chunks(self.__input, self.__bit/8)]
+		array = [struct.unpack(self.__b[self.__bit], s)[0] for s in self.__chunks(self.__input, int(self.__bit/8))]
 		out_st = pentry = dic[array.pop(0)]
 		for ccode in array:
 			if ccode in dic:
