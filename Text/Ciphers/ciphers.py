@@ -10,12 +10,16 @@ def cesar_enc(s,i):
 def cesar_dec(s,i):
 	return ''.join([chr(((ord(c)-ord('a')-i)%26)+ord('a')) if (ord(c)>=ord('a') and ord(c)<=ord('z')) else c for c in s])
 
-def vigenere_enc(s,key, out = ""):
+def vigenere_enc(s,key, out = None):
+	if out is None:
+		out = ""
 	for i in range(0,len(s)):
 		out+=cesar_enc(s[i],ord(key[i%len(key)])%ord('a'))
 	return out
 
-def vigenere_dec(s,key, out = ""):
+def vigenere_dec(s,key, out = None):
+	if out is None:
+		out = ""
 	for i in range(0,len(s)):
 		out+=cesar_dec(s[i],ord(key[i%len(key)])%ord('a'))
 	return out
