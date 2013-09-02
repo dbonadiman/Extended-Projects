@@ -45,7 +45,7 @@ def main():
 	inventory.add_product(Product(1,15.0,2))
 	inventory.add_product(Product(2,13.0,1))
 	inventory.add_product(Product(1,15.0,1))
-	print inventory.total_price()
+	print(inventory.total_price())
 
 if __name__=="__main__":
 	main()
