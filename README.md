@@ -5,10 +5,20 @@ Numbers
 ---------
 
 **Find PI to the Nth Digit**  - Enter a number and have the program generate PI up to that many decimal places. Keep a limit to how far the program will go.
+
 [Python](https://github.com/dbonadiman/Extended-Projects/blob/master/Numbers/Pi/pi.py)
+
 **Fibonacci Sequence**  - Enter a number and have the program generate the Fibonacci sequence to that number or to the Nth number.
-[Python](https://github.com/dbonadiman/Extended-Projects/blob/master/Numbers/Fibonacci/fibonacci.py) [Python](https://github.com/dbonadiman/Extended-Projects/blob/master/Numbers/Fibonacci/fibonacci_iter.py)
-**Prime Factorization** [Solution](https://github.com/dbonadiman/Extended-Projects/blob/master/Numbers/Factorization/fact.py) [Solution 2](https://github.com/dbonadiman/Extended-Projects/blob/master/Numbers/Factorization/fact_iter.py) - Have the user enter a number and find all Prime Factors (if there are any) and display them.
+
+[Python - Recursive](https://github.com/dbonadiman/Extended-Projects/blob/master/Numbers/Fibonacci/fibonacci.py) 
+
+[Python - Iterative](https://github.com/dbonadiman/Extended-Projects/blob/master/Numbers/Fibonacci/fibonacci_iter.py)
+
+**Prime Factorization** - Have the user enter a number and find all Prime Factors (if there are any) and display them.
+
+[Python - Recursive](https://github.com/dbonadiman/Extended-Projects/blob/master/Numbers/Factorization/fact.py) 
+
+[Python - Iterative](https://github.com/dbonadiman/Extended-Projects/blob/master/Numbers/Factorization/fact_iter.py) 
 
 **Next Prime Number** [Solution](https://github.com/dbonadiman/Extended-Projects/blob/master/Numbers/Next/next_prime.py) [Solution 2](https://github.com/dbonadiman/Extended-Projects/blob/master/Numbers/Next/next_prime_iter.py) - Have the program find prime numbers until the user chooses to stop asking for the next one.
 
