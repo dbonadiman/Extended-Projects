@@ -1,17 +1,13 @@
-import struct
-
 HUFFMAN = 0
-LZW16 = 1
-LZW32 = 2
-MTF = 3
-
+LZW = 1
+MTF = 2
 
 class __Huffman(object):
 
 	__input =""
 	__ht = (((((((14, (220, 230)), ((156, 223), 17)), (((191, 201), (235, 250)), ((196, 181), (202, 188)))), ((((164, 208), (229, 175)), ((210, 179), (151, 159))), (((226, 205), (187, 145)), ((251, 186), (153, 124))))), (((((139, 157), (239, 161)), ((246, 137), (168, 207))), ((16, (255, 194)), (12, 19))), ((((213, 155), (141, 158)), ((142, 152), 20)), (((131, 222), (146, 123)), ((195, 218), (171, 206)))))), ((((((169, 160), (163, 134)), ((231, 185), (247, 192))), (((173, 136), (177, 130)), ((190, 118), (128, 167)))), ((((193, 140), (96, 182)), ((172, 148), (126, 203))), (((180, 133), (214, 147)), ((211, 113), (178, 102))))), (((((129, 97), (106, 135)), ((79, 122), (117, 144))), ((10, (165, 127)), ((215, 109), (114, 138)))), (((8, (87, 199)), ((149, 93), (104, 81))), (((92, 94), (132, 86)), ((120, 125), (105, 111))))))), (((((1, ((162, 110), (100, 103))), (((91, 82), 9), ((116, 143), (150, 112)))), ((((64, 108), (174, 68)), (6, (83, 90))), (((107, 121), (88, 119)), ((85, 115), (73, 75))))), (((((95, 72), 7), ((63, 101), 2)), (((80, 77), (74, 66)), ((99, 84), 5))), ((((61, 51), (76, 69)), ((59, 58), (67, 98))), (((70, 71), (89, 78)), ((60, 62), (54, 53)))))), ((((((57, 48), (50, 35)), ((36, 40), 0)), (((55, 37), (47, 52)), ((43, 46), (65, 41)))), ((((45, 34), (38, 49)), ((33, 31), (42, 30))), (((25, 28), (56, 21)), (4, (44, (240, 234)))))), (((((39, 26), (29, (225, 237))), ((22, 24), 3)), (((27, (184, 232)), (32, (233, 242))), ((11, (224, 241)), ((254, 236), (253, 228))))), (((((204, 189), 18), ((197, 249), (219, 245))), (((176, 212), (227, 238)), ((209, 216), 13))), (((15, (154, 217)), ((183, 243), (170, 248))), (((221, 200), (252, 198)), (23, (166, 244)))))))))
 
-	def __init__(self,data):
+	def __init__(self,data,bit=8):
 		self.__input=data
 		
 	def __chunks(self,l, n):
@@ -82,6 +78,7 @@ class __LZW(object):
 
 
 	def encode(self):
+		import struct
 		dict_size = 256
 		#dictionary = dict((chr(i), chr(i)) for i in xrange(dict_size))
 		dic = {str([i]): i for i in range(dict_size)}
@@ -105,6 +102,7 @@ class __LZW(object):
 		return [l[i:i+n] for i in range(0, len(l), n)]
 
 	def decode(self):
+		import struct
 		dict_size = 256
 		#dictionary = dict((chr(i), chr(i)) for i in xrange(dict_size))
 		dic = {i: [i] for i in range(dict_size)}
@@ -126,7 +124,7 @@ class __LZW(object):
 		
 class __MTFT(object):
 
-	def __init__(self,data):
+	def __init__(self,data,bit=8):
 		self.__input=data
 
 
@@ -149,31 +147,27 @@ class __MTFT(object):
 			l.insert(0, st)
 			out_st+=[st]		
 		return bytearray(out_st)
-
-
-
+		
 		
 
-def __instance(st,codec):
-	if codec==0:
-		return __Huffman(st)
-	if codec==1:
-		return __LZW(st,16)
-	if codec==2:
-		return __LZW(st,32)
-	if codec==3:
-		return __MTFT(st)
-	print(codec)
+
+
+__instance = {
+	0:__Huffman,
+	1:__LZW,
+	2:__MTFT
+}
+
 	
 def encode(s,codec):
 	for c in codec:
-		s = instance(s,c).encode()
+		s = __instance[c](s).encode()
 	return s
 		
 	
 def decode(s,codec):
 	for c in codec:
-		s = instance(s,c).decode()
+		s = __instance[c](s).decode()
 	return s
 
 
@@ -184,8 +178,8 @@ def __test():
 	s = open('files/pride_and_prejudice.txt','rb').read()
 	#print 100
 	enc = s
-	enc = encode(s,[LZW16,HUFFMAN])
-	dec = decode(enc,[HUFFMAN,LZW16])
+	enc = encode(s,[LZW,HUFFMAN])
+	dec = decode(enc,[HUFFMAN,LZW])
 
 	return dec == s
 
