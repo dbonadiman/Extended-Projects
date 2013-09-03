@@ -1,10 +1,10 @@
 def dijkstra(graph,source_node,destination):
-    if len(graph)<1:
+    if not graph:
         raise ValueError("Graph not Valid")
     nodes = set([i for i in range(len(graph))])
-    dist = [0 if i==source_node  else float("inf") for i in nodes]
+    dist = [0 if i is source_node  else float("inf") for i in nodes]
     previous = [float("inf") for i in nodes]
-    while len(nodes)>1:
+    while nodes:
         val, idx = min((val, idx) for (idx, val) in enumerate(dist) if idx in nodes )
         nodes.discard(idx)
         if val == float("inf"):
@@ -21,19 +21,18 @@ def dijkstra(graph,source_node,destination):
         while True:
             sequence.append(p)
             p = previous[p]
-            if p==source_node:
+            if p is source_node:
                 break
         sequence.append(source_node)
-    except:
+    except Exception:
         return []
-    
     return sequence[::-1]
 
 def print_matrix(m):
     for l in m:
         print(l)
 
-def __main():
+def _main():
     graph = [[0,2,1,0],
              [0,0,1,0],
              [0,3,0,1],
@@ -62,4 +61,4 @@ def __main():
         print("\nThe minimum path from {} to {} are : {}\n".format(i,0,dijkstra(graph,i,0)))
      
 if __name__=="__main__":
-    __main()
+    _main()
