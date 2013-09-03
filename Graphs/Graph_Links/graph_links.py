@@ -9,18 +9,18 @@ class Graph:
             self.add_edges(edges)
 
     def add_node(self, n):
-        if n not in self.__nodes:
+        if n not in self._nodes:
             self._nodes.append(n)
 
     def add_edge(self, a):
-        if isinstance(a,tuple):
-            if (a[0] in self._nodes) and (a[1] in self.__nodes):
+        try:
+            if (a[0] in self._nodes) and (a[1] in self._nodes):
                 if a not in self._edges:
                     self._edges.append(a)
-            else:
-                raise Exception("Error: You can't add edges if one node is missing")
-        else:
-            raise ValueError("{} is not a tuple".format(a))
+                else:
+                    raise Exception("Error: You can't add edges if one node is missing")
+        except TypeError:
+            raise ValueError("{} is supposed to be a tuple".format(a))
 
     def contains(self, c):
         return c in self._edges or c in self._nodes
@@ -45,13 +45,13 @@ class Graph:
 
 
     def outgoing_edges(self,n):
-        if n in self.__nodes:
+        if n in self._nodes:
             return [(n1,n2)  for (n1,n2) in self._edges if n1 == n]
         else:
             raise Exception("Error: node not found")
 
     def ingoing_edges(self,n):
-        if n in self.__nodes:
+        if n in self._nodes:
             return [(n1,n2)  for (n1,n2) in self._edges if n2 == n]
         else:
             raise Exception("Error: node not found")
