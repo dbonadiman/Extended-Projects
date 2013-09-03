@@ -22,6 +22,9 @@ def first_eight_hn():
 
 def main():
     try:
+        global input
+        try: input = raw_input
+        except NameError: pass
         n = int(input("N: "))
     except Exception:
         print("Wrong Input,retry.")
