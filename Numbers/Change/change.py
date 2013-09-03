@@ -10,6 +10,9 @@ def change(amount,coin):
 
 def main():
     try:
+        global input
+        try: input = raw_input
+        except NameError: pass
         cost = float(input("Cost: "))
         money_given = float(input("Money given: "))
     except Exception:
