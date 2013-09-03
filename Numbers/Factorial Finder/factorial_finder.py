@@ -1,17 +1,17 @@
 def factorial(n):
     factorial = 1
-    for i in range(1,n+1):
-        factorial*=i
+    for i in range(n):
+        factorial*=i+1
     return factorial
 
 def factorial_rec(n):
-    if n<=1:
-        return 1
-    else:
-        return n*factorial_rec(n-1)
+        return n*factorial_rec(n-1) if n>1 else 1
 
 def main():
     try:
+        global input
+        try: input = raw_input
+        except NameError: pass
         n = int(input("N: "))
     except Exception:
         print ("Wrong input,retry.")

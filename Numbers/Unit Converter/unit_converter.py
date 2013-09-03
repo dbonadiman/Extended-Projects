@@ -9,6 +9,9 @@ _temp = {
 
 def main():
     try:
+        global input
+        try: input = raw_input
+        except NameError: pass
         f = input("From (C,K,F): ")
         t = input("To (C,K,F): ")
         a = float(input("Amount: "))

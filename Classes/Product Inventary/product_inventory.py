@@ -1,44 +1,45 @@
 class Product:
-    __id = -1
-    __price = -1.0
-    __quantity = -1
+    _id = -1
+    _price = -1.0
+    _quantity = -1
 
     def __init__(self, id, price, quantity):
-        self.__id=id
-        self.__price=price
-        self.__quantity=quantity
+        self._id=id
+        self._price=price
+        self._quantity=quantity
+        
+    def __hash__(self):
+        return hash(self._id)
 
     def price(self):
-        return self.__price
+        return self._price
 
     def quantity(self):
-        return self.__quantity
+        return self._quantity
 
     def add_quantity(self,quantity):
-        self.__quantity += quantity
+        self._quantity += quantity
 
     def id(self):
-        return self.__id
+        return self._id
 
 
 class Inventory:
-    __products = []
+    _products = []
     def __init__(self, products = None):
         if products is None:
             products = []
-        self.__products+=products
-
+        self._products+=products
+    
+    #!!! PERFORMANCE: more performance needed.
     def add_product(self,p):
-        for prod in self.__products:
-            if p.id() == prod.id():
-                prod.add_quantity(p.quantity())
-                return
-        self.__products.append(p)
+        if p in self._products:
+            self._products[self._products.index(p)].add_quantity(p.quantity())
+        else:
+            self._products.append(p)
 
-    def total_price(self,total=0):
-        for p in self.__products:
-            total += p.quantity()*p.price()
-        return total
+    def total_price(self):
+        return sum(p.quantity()*p.price() for p in self._products)
 
 
 def main():

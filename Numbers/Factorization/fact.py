@@ -24,6 +24,9 @@ def find_div(n,div):
 
 def main():
     try:
+        global input
+        try: input = raw_input
+        except NameError: pass
         factorial(int(input("Give me a number:")))
     except Exception:
         print ("Wrong input, retry.")

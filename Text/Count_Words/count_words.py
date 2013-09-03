@@ -3,6 +3,9 @@ def words(s):
 
 def main():
     try:
+        global input
+        try: input = raw_input
+        except NameError: pass
         text = input("")
     except Exception:
         print("Wrong input,retry.")

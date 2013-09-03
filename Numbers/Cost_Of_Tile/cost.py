@@ -1,12 +1,18 @@
 class Square:
+    
     def __init__(self,width,height):
         self.width = width
         self.height = height
+        
     def __str__(self):
         return str(self.width)+"x"+str(self.height)
 
+
 def input_float(string):
     try:
+        global input
+        try: input = raw_input
+        except NameError: pass
         return float(input(string))
     except Exception:
         print ("Wrong input, retry.")

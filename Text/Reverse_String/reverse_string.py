@@ -3,6 +3,9 @@ def reverse(s):
 
 def main():
     try:
+        global input
+        try: input = raw_input
+        except NameError: pass
         string = input("")
     except Exception:
         print("Wrong input, retry.")

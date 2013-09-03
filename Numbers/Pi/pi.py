@@ -19,6 +19,9 @@ def opi(i,loops):
         return n
 
 def main():
+    global input
+    try: input = raw_input
+    except NameError: pass
     outstring = 'The Number is {:.'+str(int(input("Precision:"))+1)+'}'
     print(outstring.format(pi()))
 
