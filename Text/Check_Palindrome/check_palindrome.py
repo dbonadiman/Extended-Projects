@@ -6,7 +6,10 @@ def palindrome(s):
 
 def main():
     try:
-        string = input("")
+        global input
+        try: input = raw_input
+        except NameError: pass
+        string = str(input(""))
     except Exception:
         print("Wrong input, retry.")
         main()
