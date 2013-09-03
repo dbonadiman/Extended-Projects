@@ -11,6 +11,5 @@ def main():
     else:
         print(vowels(string))
 
-
 if __name__=="__main__":
     main()

@@ -1,12 +1,9 @@
-
-
 class Square:
     def __init__(self,width,height):
         self.width = width
         self.height = height
     def __str__(self):
         return str(self.width)+"x"+str(self.height)
-
 
 def input_float(string):
     try:
@@ -15,7 +12,6 @@ def input_float(string):
         print ("Wrong input, retry.")
         return input_float(string)
     
-
 def cost_of_tile(tile,floor, price):
     return (floor.width*floor.height*price)/(tile.width*tile.height)
 
@@ -26,7 +22,6 @@ def main():
     height = input_float("What's the height of the floor? \n")
     floor = Square(width,height)
     print ("The cost of tile is "+str(cost_of_tile(TILE,floor,price))+" $ \n")
-
 
 if __name__=="__main__":
     main()

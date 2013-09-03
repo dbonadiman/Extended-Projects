@@ -1,4 +1,3 @@
-
 __temp = {
     'C_K': lambda c: c+273.15,
     'K_C': lambda k: k-273.15,
@@ -7,7 +6,6 @@ __temp = {
     'F_K': lambda f: ((f-32.0)*5.0/9.0)+273.15,
     'K_F': lambda k: ((k-273.15)*9.0/5.0)+32.0
 }
-
 
 def main():
     try:
@@ -19,7 +17,6 @@ def main():
         main()
     else:
         print (__temp[f+"_"+t](a))
-
 
 if __name__=="__main__":
     main()

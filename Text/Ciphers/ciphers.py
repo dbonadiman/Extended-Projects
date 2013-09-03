@@ -1,6 +1,5 @@
 import random
 
-
 __dic = {}
 
 def cesar_enc(s,i):
@@ -29,14 +28,11 @@ def get_key(s):
         __dic[s] = [chr(random.randint(ord('a'),ord('z'))) if (ord(c)>=ord('a') and ord(c)<=ord('z')) else c for c in s]
     return __dic[s]
 
-
 def vernam_enc(s,key):
     return vigenere_enc(s,key)
 
 def vernam_dec(s,key):
     return vigenere_dec(s,key)
-
-
 
 def main():
     try:
@@ -52,10 +48,6 @@ def main():
         key = get_key(text)
         print(vernam_enc(text,key))
         print(vernam_dec(vernam_enc(text,key),key)==text)
-
-
-        
-
 
 if __name__=="__main__":
     main()

@@ -20,6 +20,7 @@ class Product:
     def id(self):
         return self.__id
 
+
 class Inventory:
     __products = []
     def __init__(self, products = None):
@@ -38,8 +39,6 @@ class Inventory:
         for p in self.__products:
             total += p.quantity()*p.price()
         return total
-
-
 
 
 def main():

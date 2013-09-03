@@ -12,7 +12,6 @@ def fact(n,div):
     if div!=n:
         fact(int(n/div),div)
         
-
 def find_div(n,div):
     a = div
     while n%a!=0:
@@ -30,6 +29,5 @@ def main():
         print ("Wrong input, retry.")
         main()
     
-
 if __name__=="__main__":
     main()

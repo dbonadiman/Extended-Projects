@@ -8,7 +8,6 @@ def change(amount,coin):
             amount -= c
     return ret.items()
 
-
 def main():
     try:
         cost = float(input("Cost: "))
@@ -20,9 +19,6 @@ def main():
         print ("The change is : {:.2f}".format(money_given-cost))
         for (coin,amount) in change(money_given-cost,EURO):
             print ("{} of {:.2f} euro".format(amount,coin))
-
-
-
 
 if __name__=="__main__":
     main()

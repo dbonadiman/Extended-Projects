@@ -1,4 +1,3 @@
-
 def operation(n1,n2,op):
     return {
         '+':n1+n2,
@@ -6,9 +5,6 @@ def operation(n1,n2,op):
         '*':n1*n2,
         '/':n1/n2
     }.get(op,"Wrong operator")
-
-
-
 
 def main():
     try:

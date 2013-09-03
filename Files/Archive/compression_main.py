@@ -13,7 +13,6 @@ def __compress_file(fi,fo,codec="DEFLATE"):
     out.close()
     return fo
 
-
 def __decompress_file(fi,fo,codec="DEFLATE"):
     f = open(fi,'rb')    
     st = f.read()
@@ -94,7 +93,6 @@ def decompress(fi,fo,codec=None):
     print("Unpacking...Done\n")
     return out
 
-
 def __test():
     try:
         compress('files','files.co')
@@ -104,13 +102,11 @@ def __test():
     else:
         print("Success")
     
-    
 def __main(op,fi):
     if op=='-c':
         compress(fi,fi+'.co')
     if op=='-d':
         decompress(fi,fi[:-3])
-
 
 if __name__=="__main__":
         if len(sys.argv)==3:

@@ -1,5 +1,3 @@
-
-
 def collaz(num):
     steps = 0
     while True:
@@ -12,7 +10,6 @@ def collaz(num):
             num=num*3+1        
     return steps
 
-
 def main():
     try:
         num = int(input("Number:"))
@@ -21,7 +18,6 @@ def main():
         main()
     else:
         print(collaz(num))
-
 
 if __name__ == "__main__":
     main()

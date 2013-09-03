@@ -43,7 +43,6 @@ class __Huffman(object):
         b =self.__bit_to_char(s)
         return bytearray(b)
 
-
     def decode(self):
         #data = self.__loads_data(self.__input)
         string =bytearray()
@@ -71,7 +70,6 @@ class __LZW(object):
     def __init__(self,data,bit=16):
         self.__input=data
         self.__bit=bit
-
 
     def encode(self):
         import struct
@@ -123,7 +121,6 @@ class __MTFT(object):
     def __init__(self,data,bit=8):
         self.__input=data
 
-
     def encode(self):
         dict_size = 256
         l = [i for i in range(dict_size)]
@@ -157,21 +154,18 @@ codecs = {
     "Huffman":[0],
     "DEFLATE":[1,0]
 }
-
     
 def encode(s,codec):
     codec = codecs[codec]
     for c in codec:
         s = __instance[c](s).encode()
     return s
-        
-    
+            
 def decode(s,codec):
     codec = codecs[codec][::-1]
     for c in codec:
         s = __instance[c](s).decode()
     return s
-
 
 def __test():
     import pickle
@@ -183,14 +177,11 @@ def __test():
         enc = s
         enc = encode(s,c)
         dec = decode(enc,c)
-        a = a and (dec == s)
-    
+        a = a and (dec == s)    
     return a
-
 
 def __main():
     print(__test())
-
 
 if __name__=="__main__":
     __main()

@@ -13,6 +13,5 @@ def main():
     else:
         print(palindrome(string))
 
-
 if __name__=="__main__":
     main()

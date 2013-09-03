@@ -10,6 +10,5 @@ def main():
     else:
         print(reverse(string))
 
-
 if __name__=="__main__":
     main()

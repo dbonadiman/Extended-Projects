@@ -4,9 +4,7 @@ def eulerian_path(graph, node):
     if graph == []:
         return None
     return eulerian_path_r(deepcopy(graph),[1]*len(graph),[node],sum(sum(x for x in i) for i in graph))    
-     
-
-
+    
 def eulerian_path_r(visited, nodes, path, edges_left):
     if len(path)>1 :
         visited[path[-2]][path[-1]]=0
@@ -69,9 +67,6 @@ def main():
     graph = [[0]]
     print_matrix(graph)
     print("\nPath: {}\n".format(eulerian_path(graph,0)))
-
-
-
 
 if __name__=="__main__":
     main()

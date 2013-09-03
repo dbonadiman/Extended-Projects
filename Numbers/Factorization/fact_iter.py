@@ -8,7 +8,6 @@ def factorial(n):
         else:
             break
         
-
 def find_div(n,div):
     a = div
     while n%a!=0:

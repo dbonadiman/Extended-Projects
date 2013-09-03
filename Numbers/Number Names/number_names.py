@@ -67,7 +67,6 @@ def main():
     else:
         print(digit_to_name(n))
 
-
 if __name__=="__main__":
     main()
 
