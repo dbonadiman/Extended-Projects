@@ -18,12 +18,15 @@ def dijkstra(graph,source_node,destination):
 	sequence = []
 	p = destination
 	try:
-		while p != source_node:
+		while True:
 			sequence.append(p)
 			p = previous[p]
+			if p==source_node:
+				break
 		sequence.append(source_node)
 	except:
 		return []
+	
 	return sequence[::-1]
 
 def print_matrix(m):
