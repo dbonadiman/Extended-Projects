@@ -13,6 +13,9 @@ def fib_rec(a,b,n):
         
 def main():
     try:
+        global input
+        try: input = raw_input
+        except NameError: pass
         n = int(input("Give me a number:"))
     except Exception:
         print ("Wrong input, retry.")
