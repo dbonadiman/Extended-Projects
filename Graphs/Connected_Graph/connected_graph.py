@@ -7,18 +7,18 @@ def strong_connectivity(graph, node):
         return strong_connectivity_r(deepcopy(graph),[1]*len(graph),[node],sum(sum(x for x in i) for i in graph))    
         
 def strong_connectivity_r(visited, nodes, path, edges_left):
-    if len(path)>1 :
+    if path :
         visited[path[-2]][path[-1]]=0
     nodes[path[-1]] = 0
     if sum(x for x in nodes)==0:
         return True
-    for j in range(0,len(nodes)):
+    for j in range(len(nodes)):
         if visited[path[-1]][j]:
             if nodes[j]:
                 out = strong_connectivity_r(deepcopy(visited),nodes,deepcopy(path+[j]),edges_left-1)
                 if out:
                     return out
-    for j in range(0,len(nodes)):
+    for j in range(len(nodes)):
         if visited[path[-1]][j]:
             if not nodes[j]:
                 out = strong_connectivity_r(deepcopy(visited),nodes,deepcopy(path+[j]),edges_left-1)
