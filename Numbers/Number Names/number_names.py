@@ -40,7 +40,7 @@ _uptotrillion = {
 }
 
 def digit_to_name(n):
-    for dig in _uptotrillion.keys():
+    for dig in _uptotrillion:
         if int(n/dig)!=0:
             if n%dig == 0:
                 return digit_to_name(int(n/dig))+" "+_uptotrillion[dig]
@@ -48,16 +48,19 @@ def digit_to_name(n):
                 return digit_to_name(int(n/dig))+" "+_uptotrillion[dig]+" "+digit_to_name(n%dig)
 
     if n<100 and n>=20:
-        for dig in __dec.keys():
+        for dig in _dec:
             if n-dig<10 and n-dig>0:
-                return __dec[dig]+"-"+digit_to_name(n-dig)
+                return _dec[dig]+"-"+digit_to_name(n-dig)
             elif n-dig==0:
-                return __dec[dig]
+                return _dec[dig]
 
     return _onetotwenty[n]
 
 def main():
     try:
+        global input
+        try: input = raw_input
+        except NameError: pass
         n = int(input("N: "))
         if n==0:
             raise Exception('error','wrong input')
