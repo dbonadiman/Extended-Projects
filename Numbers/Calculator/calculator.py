@@ -8,6 +8,9 @@ def operation(n1,n2,op):
 
 def main():
     try:
+        global input
+        try: input = raw_input
+        except NameError: pass
         n1 = int(input("Number 1: "))
         n2 = int(input("Number 2: "))
     except Exception:
