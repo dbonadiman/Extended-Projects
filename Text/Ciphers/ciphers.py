@@ -11,21 +11,15 @@ def cesar_dec(s,i):
 def vigenere_enc(s,key, out = None):
     if out is None:
         out = ""
-    for i in range(0,len(s)):
-        out+=cesar_enc(s[i],ord(key[i%len(key)])%ord('a'))
-    return out
+    return ''.join(cesar_enc(s[i],ord(key[i%len(key)])%ord('a')) for i in range(0,len(s)))
 
 def vigenere_dec(s,key, out = None):
     if out is None:
         out = ""
-    for i in range(0,len(s)):
-        out+=cesar_dec(s[i],ord(key[i%len(key)])%ord('a'))
-    return out
+    return ''.join(cesar_dec(s[i],ord(key[i%len(key)])%ord('a')) for i in range(0,len(s)))
 
 def get_key(s):
-    if s not in __dic.keys():
-        _dic[s] = [chr(random.randint(ord('a'),ord('z'))) if (ord(c)>=ord('a') and ord(c)<=ord('z')) else c for c in s]
-    return _dic[s]
+    return _dic.get(s,[chr(random.randint(ord('a'),ord('z'))) if (ord(c)>=ord('a') and ord(c)<=ord('z')) else c for c in s])
 
 def vernam_enc(s,key):
     return vigenere_enc(s,key)
@@ -35,11 +29,15 @@ def vernam_dec(s,key):
 
 def main():
     try:
-        text = input("").lower()
+        global input
+        try: input = raw_input
+        except NameError: pass
+        text = str(input(""))
     except Exception:
         print("Wrong input,retry.")
         main()
     else:
+        text =  text.lower()
         print(cesar_enc(text,4))
         print(cesar_dec(cesar_enc(text,4),4)==text)
         print(vigenere_enc(text,"lemon"))
