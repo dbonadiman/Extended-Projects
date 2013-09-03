@@ -1,4 +1,4 @@
-__onetotwenty = {
+_onetotwenty = {
     1:"one",
     2:"two",
     3:"three",
@@ -20,7 +20,7 @@ __onetotwenty = {
     19:"nineteen"
 }
 
-__dec = {
+_dec = {
     20:"twenty",
     30:"thirty",
     40:"forty",
@@ -31,7 +31,7 @@ __dec = {
     90:"ninety"
 }
 
-__uptotrillion = {
+_uptotrillion = {
     1000000000000:"trillion",
     1000000000:"billion",
     1000000:"million",
@@ -40,12 +40,12 @@ __uptotrillion = {
 }
 
 def digit_to_name(n):
-    for dig in __uptotrillion.keys():
+    for dig in _uptotrillion.keys():
         if int(n/dig)!=0:
             if n%dig == 0:
-                return digit_to_name(int(n/dig))+" "+__uptotrillion[dig]
+                return digit_to_name(int(n/dig))+" "+_uptotrillion[dig]
             else:
-                return digit_to_name(int(n/dig))+" "+__uptotrillion[dig]+" "+digit_to_name(n%dig)
+                return digit_to_name(int(n/dig))+" "+_uptotrillion[dig]+" "+digit_to_name(n%dig)
 
     if n<100 and n>=20:
         for dig in __dec.keys():
@@ -54,7 +54,7 @@ def digit_to_name(n):
             elif n-dig==0:
                 return __dec[dig]
 
-    return __onetotwenty[n]
+    return _onetotwenty[n]
 
 def main():
     try:

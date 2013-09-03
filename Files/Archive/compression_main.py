@@ -74,10 +74,10 @@ def compress(fi,fo,codec=None):
     if codec is None:
         codec = "DEFLATE"
     print("Packing...\n")
-    ar = __folder_pack(fi,fi+'.temp')
+    ar = _folder_pack(fi,fi+'.temp')
     print("Packing...Done\n")
     print("Compressing...\n")
-    out = __compress_file(ar,fo,codec)
+    out = _compress_file(ar,fo,codec)
     os.remove(ar)
     print("Compressing...Done\n")
     return out
@@ -86,14 +86,14 @@ def decompress(fi,fo,codec=None):
     if codec is None:
         codec = "DEFLATE"
     print("Decompressing...\n")
-    ar = __decompress_file(fi,fi+'.temp',codec)
+    ar = _decompress_file(fi,fi+'.temp',codec)
     print("Decompressing...Done\n")
     print("Unpacking...\n")
-    out = __folder_unpack(ar,fo)
+    out = _folder_unpack(ar,fo)
     print("Unpacking...Done\n")
     return out
 
-def __test():
+def _test():
     try:
         compress('files','files.co')
         decompress('files.co','files')
@@ -102,7 +102,7 @@ def __test():
     else:
         print("Success")
     
-def __main(op,fi):
+def _main(op,fi):
     if op=='-c':
         compress(fi,fi+'.co')
     if op=='-d':
@@ -110,6 +110,6 @@ def __main(op,fi):
 
 if __name__=="__main__":
         if len(sys.argv)==3:
-            __main(sys.argv[1],sys.argv[2])
+            _main(sys.argv[1],sys.argv[2])
         else:
-            __test()
+            _test()

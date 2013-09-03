@@ -1,4 +1,4 @@
-__temp = {
+_temp = {
     'C_K': lambda c: c+273.15,
     'K_C': lambda k: k-273.15,
     'C_F': lambda c: c*9.0/5.0+32.0,
@@ -16,7 +16,7 @@ def main():
         print("Wrong input,retry.")
         main()
     else:
-        print (__temp[f+"_"+t](a))
+        print (_temp[f+"_"+t](a))
 
 if __name__=="__main__":
     main()

@@ -1,10 +1,9 @@
 import random
 
-__dic = {}
+_dic = {}
 
 def cesar_enc(s,i):
     return ''.join([chr(((ord(c)-ord('a')+i)%26)+ord('a')) if ord(c)>=ord('a') and ord(c)<=ord('z') else c for c in s])
-
 
 def cesar_dec(s,i):
     return ''.join([chr(((ord(c)-ord('a')-i)%26)+ord('a')) if (ord(c)>=ord('a') and ord(c)<=ord('z')) else c for c in s])
@@ -25,8 +24,8 @@ def vigenere_dec(s,key, out = None):
 
 def get_key(s):
     if s not in __dic.keys():
-        __dic[s] = [chr(random.randint(ord('a'),ord('z'))) if (ord(c)>=ord('a') and ord(c)<=ord('z')) else c for c in s]
-    return __dic[s]
+        _dic[s] = [chr(random.randint(ord('a'),ord('z'))) if (ord(c)>=ord('a') and ord(c)<=ord('z')) else c for c in s]
+    return _dic[s]
 
 def vernam_enc(s,key):
     return vigenere_enc(s,key)
