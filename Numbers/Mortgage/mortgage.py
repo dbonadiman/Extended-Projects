@@ -1,15 +1,15 @@
-def montly_amounts(mortgage,months,interest_rate):
-    for i in range(1,months):
-        print(amount(mortgage/months,i,interest_rate))
-
-def amount(cost, time, interest_rate):
-    return cost*(1+time*interest_rate)
+def montly_amount(mortgage,months,interest_rate):
+    return ((mortgage*(interest_rate/12)*(1+interest_rate/12)**months))/(((1+interest_rate/12)**months)-1)
 
 def main():
-    INTEREST_RATE = 10.0
+    global input
+    try: input = raw_input
+    except NameError: pass
+    INTEREST_RATE = 0.1
     TERMS  = 24
     mortgage = float(input("Mortgage amount?"))
-    montly_amounts(mortgage,TERMS,INTEREST_RATE)
+    print("montly fee {}".format(montly_amount(mortgage,TERMS,INTEREST_RATE)))
+    print("Total {} ".format(montly_amount(mortgage,TERMS,INTEREST_RATE)*TERMS))
 
 if __name__=="__main__":
     main()
