@@ -27,7 +27,7 @@ def print_matrix(m):
 	for l in m:
 		print(l)
 
-def main():
+def __main():
 	graph = [[0,2,1,0],
 			 [0,0,1,0],
 			 [0,3,0,1],
@@ -53,4 +53,4 @@ def main():
 
 
 if __name__=="__main__":
-	main()
+	__main()
