@@ -17,10 +17,13 @@ def dijkstra(graph,source_node,destination):
 					 previous[i] = idx
 	sequence = []
 	p = destination
-	while p != source_node:
-		sequence.append(p)
-		p = previous[p]
-	sequence.append(source_node)
+	try:
+		while p != source_node:
+			sequence.append(p)
+			p = previous[p]
+		sequence.append(source_node)
+	except:
+		return []
 	return sequence[::-1]
 
 def print_matrix(m):
@@ -49,6 +52,15 @@ def __main():
 		print("\nThe minimum path from {} to {} are : {}\n".format(0,0,dijkstra(graph,0,0)))
 	except ValueError:
 		print("Graph not Valid")
+		
+		
+	graph = [[0,0,0,0],
+			 [0,0,0,0],
+			 [0,0,0,0],
+			 [0,0,0,0]]
+	print_matrix(graph)
+	for i in range(len(graph)):
+		print("\nThe minimum path from {} to {} are : {}\n".format(i,0,dijkstra(graph,i,0)))
 	
 
 
