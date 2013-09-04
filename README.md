@@ -54,6 +54,8 @@ Numbers
 
 **Alarm Clock** - A simple clock where it plays a sound after X number of minutes/seconds or at a particular time.
 
+[Python - Console Sound](https://github.com/dbonadiman/Extended-Projects/blob/master/Numbers/Alarm%20Clock/alarm.py)
+
 **Distance Between Two Cities** - Calculates the distance between two cities and allows the user to specify a unit of distance. This program may require finding coordinates for the cities like latitude and longitude.
 
 **Credit Card Validator** - Takes in a credit card number from a common credit card vendor (Visa, MasterCard, American Express, Discoverer) and validates it to make sure that it is a valid number (look into how credit cards use a checksum).
@@ -80,7 +82,14 @@ Classic Algorithms
 **Collatz Conjecture**  - Start with a number *n > 1*. Find the number of steps it takes to reach one using the following process: If *n* is even, divide it by 2. If *n* is odd, multiply it by 3 and add 1.
 
 [Python](https://github.com/dbonadiman/Extended-Projects/blob/master/Classic%20Algorithms/Collaz%20Conjecture/collaz_conjecture.py)
- 
+
+**Sorting** - Implement two types of sorting algorithms: Merge sort and bubble sort.
+
+**Closest pair problem** - The closest pair of points problem or closest pair problem is a problem of computational geometry: given n points in metric space, find a pair of points with the smallest distance between them.
+
+**Sieve of Eratosthenes** - The sieve of Eratosthenes is one of the most efficient ways to find all of the smaller primes (below 10 million or so).
+
+
 Graph
 --------
 **Graph from links** - Create a program that will create a graph or network from a series of links.
@@ -266,6 +275,13 @@ Graphics and Multimedia
 **Watermarking Application** - Have some pictures you want copyright protected? Add your own logo or text lightly across the background so that no one can simply steal your graphics off your site. Make a program that will add this watermark to the picture. *Optional: Use threading to process multiple images simultaneously.*
 
 **Turtle Graphics** - This is a common project where you create a floor of 20 x 20 squares. Using various commands you tell a turtle to draw a line on the floor. You have move forward, left or right, lift or drop pen etc. Do a search online for "Turtle Graphics" for more information. *Optional: Allow the program to read in the list of commands from a file.*
+
+Graphics and Multimedia
+---------
+
+**Chesar cipher** - Implement a Caesar cipher, both encoding and decoding. The key is an integer from 1 to 25. This cipher rotates the letters of the alphabet (A to Z). The encoding replaces each letter with the 1st to 25th next letter in the alphabet (wrapping Z to A). So key 2 encrypts "HI" to "JK", but key 20 encrypts "HI" to "BC". This simple "monoalphabetic substitution cipher" provides almost no security, because an attacker who has the encoded message can either use frequency analysis to guess the key, or just try all 25 keys.
+
+[Python](https://github.com/dbonadiman/Extended-Projects/blob/master/Text/Ciphers/ciphers.py)
 
 ===============================================
 
