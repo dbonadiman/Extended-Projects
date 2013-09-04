@@ -1,5 +1,9 @@
-Mega Project List
+Extended Project List
 ========
+
+This repository wants to extend the original project list proposed here:
+
+[https://github.com/thekarangoel/Projects](https://github.com/thekarangoel/Projects)
 
 Numbers
 ---------
@@ -88,6 +92,11 @@ Classic Algorithms
 **Closest pair problem** - The closest pair of points problem or closest pair problem is a problem of computational geometry: given n points in metric space, find a pair of points with the smallest distance between them.
 
 **Sieve of Eratosthenes** - The sieve of Eratosthenes is one of the most efficient ways to find all of the smaller primes (below 10 million or so).
+
+Information Retrieval
+---------------------
+
+**Inverted index** - An [Inverted Index](http://en.wikipedia.org/wiki/Inverted_index) is a data structure used to create full text search. Given a set of text files, implement a program to create an inverted index. Also create a user interface to do a search using that inverted index which returns a list of files that contain the query term / terms. The search index can be in memory.
 
 
 Graph
@@ -276,7 +285,7 @@ Graphics and Multimedia
 
 **Turtle Graphics** - This is a common project where you create a floor of 20 x 20 squares. Using various commands you tell a turtle to draw a line on the floor. You have move forward, left or right, lift or drop pen etc. Do a search online for "Turtle Graphics" for more information. *Optional: Allow the program to read in the list of commands from a file.*
 
-Graphics and Multimedia
+Security
 ---------
 
 **Chesar cipher** - Implement a Caesar cipher, both encoding and decoding. The key is an integer from 1 to 25. This cipher rotates the letters of the alphabet (A to Z). The encoding replaces each letter with the 1st to 25th next letter in the alphabet (wrapping Z to A). So key 2 encrypts "HI" to "JK", but key 20 encrypts "HI" to "BC". This simple "monoalphabetic substitution cipher" provides almost no security, because an attacker who has the encoded message can either use frequency analysis to guess the key, or just try all 25 keys.
@@ -287,6 +296,8 @@ Graphics and Multimedia
 
 Sources
 =======
+
+[Mega Project List](https://github.com/thekarangoel/Projects)
 
 [Martyr2’s Mega Project List](http://www.dreamincode.net/forums/topic/78802-martyr2s-mega-project-ideas-list/)
 
