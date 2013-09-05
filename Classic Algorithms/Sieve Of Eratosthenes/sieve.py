@@ -4,7 +4,6 @@ def sieve(n):
     prime = [2]
     while temp:
         prime.append(temp.pop())
-        print(len(temp))
         for i,n in enumerate(temp):
             if n%prime[-1]==0:
                 temp.pop(i)

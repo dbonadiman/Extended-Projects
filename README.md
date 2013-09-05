@@ -105,6 +105,8 @@ Classic Algorithms
 
 **Sieve of Eratosthenes** - The sieve of Eratosthenes is one of the most efficient ways to find all of the smaller primes (below 10 million or so).
 
+[Python](https://github.com/dbonadiman/Extended-Projects/blob/master/Classic%20Algorithms/Sieve%20Of%20Eratosthenes/sieve.py)
+
 Information Retrieval
 ---------------------
 
