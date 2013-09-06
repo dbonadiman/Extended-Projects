@@ -1,6 +1,7 @@
 """
 Problem
 -------
+
 **Find PI to the Nth Digit**
 Enter a number and have the program generate PI up to that
 many decimal places. Keep a limit to how far the program
@@ -44,7 +45,8 @@ def main():
         print("\nThis program returns the pi up to many"
               "decimal you enter.\n"
               "Please enter the number of decimal you need.\n")
-        precision = raw_input("-->") #this only works in 2.* change to input("-->") in 3.*
+        # the follow statement only works in 2.* change to input("-->") in 3.*
+        precision = raw_input("-->")
         print(''.join(['\n', pi(int(precision)), '\n']))
         return 0
     except ValueError:
