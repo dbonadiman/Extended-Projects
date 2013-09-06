@@ -48,7 +48,7 @@ Numbers
 
 **Unit Converter (temp, currency, volume, mass and more)**  - Converts various units between one another. The user enters the type of unit being entered, the type of unit they want to convert to and then the value. The program will then make the conversion.
 
-[Python - Temperature Only](https://github.com/dbonadiman/Extended-Projects/blob/master/Numbers/Unit%20Converter/unit_converter.py)
+[Python](https://github.com/dbonadiman/Extended-Projects/blob/master/Numbers/Unit%20Converter/unit_converter.py)
 
 **Alarm Clock** - A simple clock where it plays a sound after X number of minutes/seconds or at a particular time.
 
