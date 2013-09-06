@@ -14,9 +14,7 @@ Numbers
 
 **Fibonacci Sequence**  - Enter a number and have the program generate the Fibonacci sequence to that number or to the Nth number.
 
-[Python - Recursive](https://github.com/dbonadiman/Extended-Projects/blob/master/Numbers/Fibonacci/fibonacci.py) 
-
-[Python - Iterative](https://github.com/dbonadiman/Extended-Projects/blob/master/Numbers/Fibonacci/fibonacci_iter.py)
+[Python](https://github.com/dbonadiman/Extended-Projects/blob/master/Numbers/Fibonacci/fibonacci.py) 
 
 [Ruby - Dynamic Programming](https://github.com/dbonadiman/Extended-Projects/blob/master/Numbers/Fibonacci/fibonacci.rb)
 
