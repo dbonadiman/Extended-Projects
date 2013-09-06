@@ -38,7 +38,7 @@ def main():
     price = float(raw_input("What's the cost for squared meter ($)? "))
     width = float(raw_input("What's the width of the floor? "))
     height = float(raw_input("What's the height of the floor? "))
-    print ("The cost of tile is {} $ ".format(cost_of_tile(price, width, height)))
+    print ("The cost of tile is {:2f} $ ".format(cost_of_tile(price, width, height)))
     return 0
 
 if __name__ == "__main__":
