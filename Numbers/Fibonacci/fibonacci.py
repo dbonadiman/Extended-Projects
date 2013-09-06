@@ -1,27 +1,108 @@
-###########################
-# recursive one suffers of
-# recursion limit exceeded on 
-# large number.
-##########################
-def fibonacci(n):
-    fib_rec(0,1,n)
+"""
+Problem
+-------
 
-def fib_rec(a,b,n):
-    if n>b:
-        print(b)
-        fib_rec(b,a+b,n)
-        
+**Fibonacci Sequence**
+
+Enter a number and have the program generate the
+Fibonacci sequence to that number or to the Nth number.
+
+Solution
+--------
+The problem is solved using an iterative a recursive and
+a dynamic programming tecnique
+
+Author
+------
+dbonadiman
+
+"""
+import sys
+
+
+def fibonacci_dyprogramming(n):
+    """
+    Fibonacci in dynamic programming way.
+
+    >>> fibonacci_dyprogramming(3)
+    [0, 1, 1, 2, 3]
+
+    >>> fibonacci_dyprogramming(0)
+    [0]
+    """
+    fib_sequence = []
+    if n > -1:
+        fib_sequence.append(0)
+    if n > 0:
+        fib_sequence.append(1)
+        while True:
+            fib_sequence.append(fib_sequence[-1]+fib_sequence[-2])
+            if fib_sequence[-1] > n:
+                fib_sequence.pop()
+                break
+    return fib_sequence
+
+
+def fibonacci_iterative(n):
+    """
+    Fibonacci in an iterative way.
+
+    >>> fibonacci_iterative(3)
+    [0, 1, 1, 2, 3]
+
+    >>> fibonacci_iterative(0)
+    [0]
+    """
+    a = 0
+    b = 1
+    fib_sequence = []
+    while n >= a:
+        fib_sequence.append(a)
+        a, b = b, a+b  # i <3 python
+    return fib_sequence
+
+
+def fibonacci_recursive(n):
+    """
+    Fibonacci in an recursive algorithm.
+
+    >>> fibonacci_recursive(3)
+    [0, 1, 1, 2, 3]
+
+    >>> fibonacci_recursive(0)
+    [0]
+    """
+    return _fib_rec(0, 1, n)
+
+
+def _fib_rec(a, b, n):
+    if n >= a:
+        return [a]+_fib_rec(b, a+b, n)
+    else:
+        return []
+
+
 def main():
     try:
-        global input
-        try: input = raw_input
-        except NameError: pass
-        n = int(input("Give me a number:"))
-    except Exception:
-        print ("Wrong input, retry.")
-        main()
+        print("\nThis program returns the fibonacci sequence"
+              "to a number you enter using two differents \n"
+              "algorithms one iterative and one recursive.\n"
+              "Please enter the number.\n")
+        n = int(raw_input("--> "))
+        if n < 0:
+            raise ValueError()
+    except ValueError:
+        print("Only positive integers allowed!\n")
+        return 1
     else:
-        fibonacci(n)    
-            
-if __name__=="__main__":
-    main()
+        print("\n Recursive: {}".format(fibonacci_recursive(n)))
+        print("\n Iterative: {}".format(fibonacci_iterative(n)))
+        print("\n Dynamic Programming: {}".format(fibonacci_dyprogramming(n)))
+        return 0
+
+
+if __name__ == "__main__":
+    import doctest
+    doctest.testmod()
+    status = main()
+    sys.exit(status)
