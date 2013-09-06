@@ -35,6 +35,8 @@ def cost_of_tile(cost, width, height):
 
 
 def main():
+    print("\nThis program calculate the cost of tile given\n"
+          "the size of the floor and the cost per squared meter.\n")
     price = float(raw_input("What's the cost for squared meter ($)? "))
     width = float(raw_input("What's the width of the floor? "))
     height = float(raw_input("What's the height of the floor? "))
