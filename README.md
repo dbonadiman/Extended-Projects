@@ -16,13 +16,11 @@ Numbers
 
 [Python](https://github.com/dbonadiman/Extended-Projects/blob/master/Numbers/Fibonacci/fibonacci.py) 
 
-[Ruby - Dynamic Programming](https://github.com/dbonadiman/Extended-Projects/blob/master/Numbers/Fibonacci/fibonacci.rb)
+[Ruby](https://github.com/dbonadiman/Extended-Projects/blob/master/Numbers/Fibonacci/fibonacci.rb)
 
 **Prime Factorization** - Have the user enter a number and find all Prime Factors (if there are any) and display them.
 
-[Python - Recursive](https://github.com/dbonadiman/Extended-Projects/blob/master/Numbers/Factorization/fact.py) 
-
-[Python - Iterative](https://github.com/dbonadiman/Extended-Projects/blob/master/Numbers/Factorization/fact_iter.py) 
+[Python](https://github.com/dbonadiman/Extended-Projects/blob/master/Numbers/Factorization/fact.py) 
 
 **Next Prime Number**  - Have the program find prime numbers until the user chooses to stop asking for the next one.
 
