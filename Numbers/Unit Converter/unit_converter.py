@@ -1,3 +1,37 @@
+"""
+Problem
+-------
+
+**Unit Converter (temp, currency, volume, mass and more)**
+Converts various units between one another. The user enters
+the type of unit being entered, the type of unit they want
+to convert to and then the value. The program will then
+make the conversion.
+
+Solution
+--------
+I'm gonna use a dictionary of lambda function to solve this
+problem.
+It's works only for temperature.
+It's possible to add more conversions adding the functions into
+the dictionary
+
+Author
+------
+dbonadiman
+
+"""
+import sys
+
+"""
+>>> _temp['C_K'](10)
+283.15
+
+
+>>> _temp['F_C'](80)
+26.666666666666668
+"""
+
 _temp = {
     'C_K': lambda c: c+273.15,
     'K_C': lambda k: k-273.15,
@@ -7,19 +41,22 @@ _temp = {
     'K_F': lambda k: ((k-273.15)*9.0/5.0)+32.0
 }
 
+
 def main():
     try:
-        global input
-        try: input = raw_input
-        except NameError: pass
-        f = input("From (C,K,F): ")
-        t = input("To (C,K,F): ")
+        f = raw_input("From (C,K,F): ")
+        t = raw_input("To (C,K,F): ")
         a = float(input("Amount: "))
     except Exception:
-        print("Wrong input,retry.")
-        main()
+        print("You have entered a non valid input")
+        return 1
     else:
         print (_temp[f+"_"+t](a))
+        return 0
 
-if __name__=="__main__":
-    main()
+
+if __name__ == "__main__":
+    import doctest
+    doctest.testmod()
+    status = main()
+    sys.exit(status)
