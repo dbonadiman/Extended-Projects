@@ -24,7 +24,7 @@ def cost_of_tile(cost, width, height):
     """
     This function compute the cost of tile
     given a cost, a width and an height
-    
+
     >>> cost_of_tile(10.0, 10.1, 2)
     202.0
 
@@ -33,19 +33,18 @@ def cost_of_tile(cost, width, height):
     """
     return cost*width*height
 
-        
+
 def main():
     price = float(raw_input("What's the cost for squared meter ($)? "))
     width = float(raw_input("What's the width of the floor? "))
     height = float(raw_input("What's the height of the floor? "))
-    print ("The cost of tile is {:2f} $ ".format(cost_of_tile(price, width, height)))
+    print ("The cost of tile is {:2f}"
+           " $ ".format(cost_of_tile(price, width, height)))
     return 0
+
 
 if __name__ == "__main__":
     import doctest
     doctest.testmod()
     status = main()
     sys.exit(status)
-    
-
-
