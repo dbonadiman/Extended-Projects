@@ -24,9 +24,7 @@ Numbers
 
 **Next Prime Number**  - Have the program find prime numbers until the user chooses to stop asking for the next one.
 
-[Python - Recursive](https://github.com/dbonadiman/Extended-Projects/blob/master/Numbers/Next/next_prime.py) 
-
-[Python - Iterative](https://github.com/dbonadiman/Extended-Projects/blob/master/Numbers/Next/next_prime_iter.py)
+[Python](https://github.com/dbonadiman/Extended-Projects/blob/master/Numbers/Next/next_prime.py) 
 
 **Find Cost of Tile to Cover W x H Floor** - Calculate the total cost of tile it would take to cover a floor plan of width and height, using a cost entered by the user.
 
