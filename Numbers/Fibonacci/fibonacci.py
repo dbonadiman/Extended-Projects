@@ -9,8 +9,8 @@ Fibonacci sequence to that number or to the Nth number.
 
 Solution
 --------
-The problem is solved using an iterative a recursive and
-a dynamic programming tecnique
+The problem is solved using an iterative, a recursive and
+a dynamic programming tecniques
 
 Author
 ------
@@ -62,7 +62,7 @@ def fibonacci_iterative(n):
     return fib_sequence
 
 
-def fibonacci_recursive(n):
+def fibonacci_recursive(n, a=0, b=1):
     """
     Fibonacci in an recursive algorithm.
 
@@ -72,12 +72,8 @@ def fibonacci_recursive(n):
     >>> fibonacci_recursive(0)
     [0]
     """
-    return _fib_rec(0, 1, n)
-
-
-def _fib_rec(a, b, n):
     if n >= a:
-        return [a]+_fib_rec(b, a+b, n)
+        return [a]+fibonacci_recursive(n, b, a+b)
     else:
         return []
 
