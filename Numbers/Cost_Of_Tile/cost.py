@@ -1,36 +1,51 @@
-class Square:
+"""
+Problem
+-------
+**Find Cost of Tile to Cover W x H Floor**
+
+Calculate the total cost of tile it would take to
+cover a floor plan of width and height, using a
+cost entered by the user.
+
+
+Solution
+--------
+A simple function that multiplies cost, width and height
+
+Author
+------
+dbonadiman
+
+"""
+import sys
+
+
+def cost_of_tile(cost, width, height):
+    """
+    This function compute the cost of tile
+    given a cost, a width and an height
     
-    def __init__(self,width,height):
-        self.width = width
-        self.height = height
+    >>> cost_of_tile(10.0, 10.1, 2)
+    202.0
+
+    >>> cost_of_tile(2.0, 0, 10)
+    0.0
+    """
+    return cost*width*height
+
         
-    def __str__(self):
-        return str(self.width)+"x"+str(self.height)
-
-
-def input_float(string):
-    try:
-        global input
-        try: input = raw_input
-        except NameError: pass
-        return float(input(string))
-    except Exception:
-        print ("Wrong input, retry.")
-        return input_float(string)
-    
-def cost_of_tile(tile,floor, price):
-    return (floor.width*floor.height*price)/(tile.width*tile.height)
-
 def main():
-    TILE = Square(0.5,0.5)
-    price = input_float("What's the cost of a "+str(TILE)+" tile ($)? \n")
-    width = input_float("What's the width of the floor? \n")
-    height = input_float("What's the height of the floor? \n")
-    floor = Square(width,height)
-    print ("The cost of tile is "+str(cost_of_tile(TILE,floor,price))+" $ \n")
+    price = float(raw_input("What's the cost for sqared meter ($)? "))
+    width = float(raw_input("What's the width of the floor? "))
+    height = float(raw_input("What's the height of the floor? "))
+    print ("The cost of tile is {} $ ".format(cost_of_tile(price, width, height)))
+    return 0
 
-if __name__=="__main__":
-    main()
+if __name__ == "__main__":
+    import doctest
+    doctest.testmod()
+    status = main()
+    sys.exit(status)
     
 
 
