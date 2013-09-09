@@ -1,82 +1,96 @@
-class Graph:
-    _nodes = []
-    _edges = []
-
-    def __init__(self,nodes=None,edges=None):
-        if nodes is not None:
-            self.add_nodes(nodes)
-        if edges is not None:
-            self.add_edges(edges)
-
-    def add_node(self, n):
-        if n not in self._nodes:
-            self._nodes.append(n)
-
-    def add_edge(self, a):
-        try:
-            if (a[0] in self._nodes) and (a[1] in self._nodes):
-                if a not in self._edges:
-                    self._edges.append(a)
-                else:
-                    raise Exception("Error: You can't add edges if one node is missing")
-        except TypeError:
-            raise ValueError("{} is supposed to be a tuple".format(a))
-
-    def contains(self, c):
-        return c in self._edges or c in self._nodes
-
-    def add_edges(self, edges):
-        for e in edges:
-            self.add_edge(e)
+"""
+Problem
+-------
+**Graph from links**
+Create a program that will create a graph or
+network from a series of links.
 
 
-    def add_nodes(self, nodes):
-        for n in nodes:
-            self.add_node(n)
+Solution
+--------
+The solution is provided building a
+matrix of 0 and 1 assigning 1 to the
+field that represent a link.
+More pratically for a link (1,2)
+the node matrix[1][2] is assigned to 1
 
-    def get_nodes(self):
-        return self._nodes
+Author
+------
+dbonadiman
 
-    def get_edges(self):
-        return self._edges
-
-    def next(self,n):
-        return [k for (n,k) in self.outgoing_edges(n)]
-
-
-    def outgoing_edges(self,n):
-        if n in self._nodes:
-            return [(n1,n2)  for (n1,n2) in self._edges if n1 == n]
-        else:
-            raise Exception("Error: node not found")
-
-    def ingoing_edges(self,n):
-        if n in self._nodes:
-            return [(n1,n2)  for (n1,n2) in self._edges if n2 == n]
-        else:
-            raise Exception("Error: node not found")
+"""
+import sys
 
 
-    def __str__(self):
-        out =  "Nodes :{}\n".format(self._nodes)
-        out += "Edges: "
-        for e in self._edges:
-            out += "{}\n       ".format(e)
-        return out
+def graph(links):
+    """
+    graph
+
+    This function takes in input a list of links
+    that are tuples and outputs a matrix that represent
+    the graph created linking such node
+
+    Note: The nodes names are allways between 0 and the
+          maximum node label in the links list
+
+    Parameters:
+
+    links ==> a list of link, a link must be represented as
+              a tuple (a, b) such that a is the starting node
+              and b is the ending one
+
+    Test:
+
+    >>> graph([(1, 2), (0, 2)])
+    [[0, 0, 1], [0, 0, 1], [0, 0, 0]]
+
+
+    """
+    m = max(max(n for (n, k) in links), max(k for (n, k) in links))
+    graph = [[0]*(m+1) for i in range(m+1)]
+    for (n, k) in links:
+        graph[n][k] = 1
+    return graph
+
+
+def print_matrix(m):
+    """
+    print_matrix
+
+    This is an ausiliary function that
+    prints matrix in a more clear way
+    and not as list of list
+
+    Parameters:
+    m ==> the matrix to print
+
+    Test:
+    >>> print_matrix([[0, 0, 1], [0, 0, 1], [0, 0, 0]])
+    [0, 0, 1]
+    [0, 0, 1]
+    [0, 0, 0]
+    """
+    for l in m:
+        print(l)
 
 
 def main():
-    links = [(1,2),(2,3),(3,4),(6,7),(7,5),(1,3)]
-    gr = Graph()
-    gr.add_nodes([n for (n,k) in links])
-    gr.add_nodes([k for (n,k) in links])
-    gr.add_edges(links)
-    print(gr)
-    print("Outgoing edges for {}: {}".format(1,gr.outgoing_edges(1)))
-    print("Ingoing edges for {}: {}".format(2,gr.ingoing_edges(2)))
-    print("Nodes next to {}: {}".format(1,gr.next(1)))
-    print("Graph contains {}: {}".format(1,gr.contains(1)))
-    print("Graph contains {}: {}".format((1,2),gr.contains((1,2))))
+    try:
+        print("\nThis program takes in input a list of links in a graph\n"
+              "and gives as output the matrix representing the graph \n")
 
-if __name__=="__main__":
-    main()
+        links = [(1, 2), (2, 3)]
+        print(links)
+        print("")
+        print_matrix(graph(links))
+        return 0
+    except Exception, e:
+        print(e)
+        return 1
+
+
+if __name__ == "__main__":
+    import doctest
+    doctest.testmod()
+    status = main()
+    sys.exit(status)

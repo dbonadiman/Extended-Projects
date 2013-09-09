@@ -94,9 +94,15 @@ def sieve(n):
 
 def main():
     try:
+        print("\nThis program execute the sieve of Eratosthenes\n"
+              "between 0 and 10000000 and outputs the number of\n"
+              "prime numbers found, please be patient it will\n"
+              "took some time\n")
+
         #here we print only the lenght of the list
         #for visual constraint
-        print(len(sieve(1000000)))
+        print("The nuber of prime numbers"
+              " under 10000000 is {}".format(len(sieve(10000000))))
         return 0
     except Exception, e:
         print(e)
