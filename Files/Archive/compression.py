@@ -30,10 +30,10 @@ class _Huffman(object):
             self._input = bytearray(data)
         except Exception:
             self._input = data
-        
+
     def _chunks(self,l, n):
         return [l[i:i+n] for i in range(0, len(l), n)]
-        
+
     def _bit_to_char(self,bit_str):
         return [int(b,2) if len(b)==8 else int(b + '0' * (8 - len(b)),2) for b in self._chunks(bit_str,8)]
 
@@ -73,7 +73,7 @@ class _LZW(object):
 
     _input =""
     _bit = 16
-    
+
     _b = {
         16: "!H",
         32: "!I",
@@ -125,8 +125,8 @@ class _LZW(object):
             dict_size +=1
             pentry = entry
         return bytearray(out_st)
-        
-        
+
+
 class __MTFT(object):
 
     def __init__(self,data,bit=8):
@@ -139,7 +139,7 @@ class __MTFT(object):
         for s in bytearray(self._input):
             old_index = l.index(s)
             l.insert(0, l.pop(old_index))
-            out_st+=[old_index]        
+            out_st+=[old_index]
         return bytearray(out_st)
 
     def decode(self):
@@ -149,7 +149,7 @@ class __MTFT(object):
         for s in bytearray(self._input):
             st = l.pop(s)
             l.insert(0, st)
-            out_st+=[st]        
+            out_st+=[st]
         return bytearray(out_st)
 
 _instance = {
@@ -165,13 +165,14 @@ codecs = {
     "Huffman":[0],
     "DEFLATE":[1,0]
 }
-    
+
+
 def encode(s,codec):
     codec = codecs[codec]
     for c in codec:
         s = _instance[c](s).encode()
     return s
-            
+
 def decode(s,codec):
     codec = codecs[codec][::-1]
     for c in codec:
@@ -187,7 +188,7 @@ def _test():
         enc = s
         enc = encode(s,c)
         dec = decode(enc,c)
-        a = a and (dec == s)    
+        a = a and (dec == s)
     return a
 
 def main():

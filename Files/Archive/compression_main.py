@@ -1,6 +1,6 @@
 import sys
 import os
-import compression 
+import compression
 import shutil
 
 def __compress_file(fi,fo,codec="DEFLATE"):
@@ -14,7 +14,7 @@ def __compress_file(fi,fo,codec="DEFLATE"):
     return fo
 
 def __decompress_file(fi,fo,codec="DEFLATE"):
-    f = open(fi,'rb')    
+    f = open(fi,'rb')
     st = f.read()
     f.close()
     st = compression.decode(st,codec)
@@ -41,7 +41,7 @@ def __folder_pack(fi,fo):
         info.close()
     else:
         shutil.copy(fi,fo)
-    print(fi)        
+    print(fi)
     return fo
 
 def __folder_unpack(fi,fo):
@@ -63,7 +63,7 @@ def __folder_unpack(fi,fo):
             fa = open(f[0].replace('\0',''),'wb')
             fa.write(data)
             fa.close()
-            __folder_unpack(f[0].replace('\0',''),f[0][:-5].replace('\0',''))    
+            __folder_unpack(f[0].replace('\0',''),f[0][:-5].replace('\0',''))
     else:
         shutil.copy(fi,fo)
     os.remove(fi)
@@ -101,7 +101,7 @@ def _test():
         print("Failed!!")
     else:
         print("Success")
-    
+
 def _main(op,fi):
     if op=='-c':
         compress(fi,fi+'.co')
