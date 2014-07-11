@@ -78,8 +78,12 @@ def main():
         return 1
 
 
+def main2():
+    i = 1
+    while True:
+        i += 1
+        print(collaz(i))
+
+
 if __name__ == "__main__":
-    import doctest
-    doctest.testmod()
-    status = main()
-    sys.exit(status)
+    main()
