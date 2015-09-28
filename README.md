@@ -162,7 +162,7 @@ Text
 
 **Fortune Teller (Horoscope)** - A program that checks your horoscope on various astrology sites and puts them together for you each day.
 
-**Vigenere / Vernam / Ceasar Ciphers** - Functions for encrypting and decrypting data messages. Then send them to a friend.
+**Vigenere / Vernam / Caesar Ciphers** - Functions for encrypting and decrypting data messages. Then send them to a friend.
 
 [Python](https://github.com/dbonadiman/Extended-Projects/blob/master/Text/Ciphers/ciphers.py)
 
